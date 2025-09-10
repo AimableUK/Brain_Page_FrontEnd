@@ -1,6 +1,9 @@
 import gradientImg from "../../../assets/gradient.png";
+import FAQ from "./snippets/FAQ";
+import Features from "./snippets/Features";
 import SpotlightCard from "./snippets/SpotlightCard";
 import WhyUs from "./snippets/WhyUs";
+import LineBreak from "./snippets/LineBreak";
 
 const Home = () => {
   return (
@@ -12,7 +15,7 @@ const Home = () => {
       />
       <div className="layer-blur"></div>
       {/* top details */}
-      <div className="mx-10 mt-14 md:mt-32 flex flex-col items-center text-center gap-y-8">
+      <div className="mx-10 my-14 md:mt-32 flex flex-col items-center text-center gap-y-8">
         <div className="flex flex-col gap-y-4">
           <h5 className="font-bold text-4xl md:text-5xl">
             Organize. Track. Grow Your Library.
@@ -45,8 +48,20 @@ const Home = () => {
         </div>
       </div>
 
+      <LineBreak />
+
       {/* why Us */}
       <WhyUs />
+
+      <LineBreak />
+
+      {/* Features */}
+      <Features />
+
+      <LineBreak />
+
+      {/* faq */}
+      <FAQ />
     </div>
   );
 };
