@@ -19,27 +19,27 @@ const Header = () => {
         <div className="flex flex-row gap-10 items-center">
           <a
             href="#"
-            className="border rounded-md px-2 py-1 bg-primary border-cardBorder hover:text-textSecondary"
+            className="border rounded-md px-2 py-1 bg-primary border-cardBorder hover:text-textSecondary primary-transition"
           >
             Features
           </a>
-          <a href="#" className="hover:text-textSecondary">
+          <a href="#" className="hover:text-textSecondary primary-transition">
             Pricing
           </a>
-          <a href="#" className="hover:text-textSecondary">
+          <a href="#" className="hover:text-textSecondary primary-transition">
             About
           </a>
-          <a href="#" className="hover:text-textSecondary">
+          <a href="#" className="hover:text-textSecondary primary-transition">
             Contact
           </a>
         </div>
         <div className="flex flex-row gap-3 items-center">
-          <a href="#" className="hover:text-textSecondary">
+          <a href="#" className="hover:text-textSecondary primary-transition">
             Login
           </a>
           <a
             href="#"
-            className="rounded-md px-2 py-1 bg-primary border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full"
+            className="rounded-md px-2 py-1 bg-primary border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full primary-transition"
           >
             Sign Up
           </a>
@@ -59,12 +59,12 @@ const Header = () => {
             {menuDisplay ? (
               <RiMenuFold4Fill
                 onClick={() => setMenuDisplay(false)}
-                className="cursor-pointer text-2xl"
+                className="cursor-pointer text-2xl hover:scale-105  primary-transition"
               />
             ) : (
               <RiMenuFold3Fill
                 onClick={() => setMenuDisplay(true)}
-                className="cursor-pointer text-2xl"
+                className="cursor-pointer text-2xl hover:scale-105 primary-transition"
               />
             )}
           </div>
@@ -83,17 +83,17 @@ const Header = () => {
           <div className="flex flex-col w-full gap-2 mt-2">
             <a
               href="#"
-              className="border rounded-md px-2 py-1 bg-primary border-cardBorder hover:text-textSecondary hover:border-textSecondary"
+              className="border rounded-md px-2 py-1 bg-primary border-cardBorder hover:text-textSecondary hover:border-textSecondary primary-transition"
             >
               Features
             </a>
-            <a href="#" className="hover:text-textSecondary">
+            <a href="#" className="hover:text-textSecondary primary-transition">
               Pricing
             </a>
-            <a href="#" className="hover:text-textSecondary">
+            <a href="#" className="hover:text-textSecondary primary-transition">
               About
             </a>
-            <a href="#" className="hover:text-textSecondary">
+            <a href="#" className="hover:text-textSecondary primary-transition">
               Contact
             </a>
           </div>
@@ -103,13 +103,13 @@ const Header = () => {
           <div className="flex flex-row gap-3 w-full">
             <a
               href="#"
-              className="rounded-md px-2 py-1 bg-primary border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full"
+              className="rounded-md px-2 py-1 bg-primary border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full primary-transition"
             >
               Log In
             </a>
             <a
               href="#"
-              className="rounded-md px-2 py-1 bg-primary border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full"
+              className="rounded-md px-2 py-1 bg-primary border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full primary-transition"
             >
               Sign Up
             </a>

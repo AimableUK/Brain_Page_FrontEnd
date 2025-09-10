@@ -33,6 +33,10 @@ body {
     z-index: -1;
 }
 
+.primary-transition {
+    @apply transition-all duration-200 ease-in-out;
+}
+
 
 /* Hover: */
 
