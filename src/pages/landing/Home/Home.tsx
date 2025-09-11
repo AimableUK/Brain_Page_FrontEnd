@@ -9,11 +9,11 @@ const Home = () => {
   return (
     <div>
       <img
-        className="image-gradient"
+        className="image-gradient-home"
         src={gradientImg}
         alt="landing gradient"
       />
-      <div className="layer-blur"></div>
+      <div className="layer-blur-home"></div>
       {/* top details */}
       <div className="mx-10 my-14 md:mt-32 flex flex-col items-center text-center gap-y-8">
         <div className="flex flex-col gap-y-4">

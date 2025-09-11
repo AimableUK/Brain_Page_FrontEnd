@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { RiMenuFold3Fill, RiMenuFold4Fill } from "react-icons/ri";
-import BrainPage from "../../../../public/BrainPage.png";
+import BrainPage from "../../../assets/BrainPage.png";
 
 const Header = () => {
   const [menuDisplay, setMenuDisplay] = useState<boolean>(false);

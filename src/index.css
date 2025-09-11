@@ -14,7 +14,8 @@ body {
     font-family: 'urbanist';
 }
 
-.image-gradient {
+/* Gradient - home */
+.image-gradient-home {
     position: absolute;
     top: 0;
     right: 0;
@@ -22,7 +23,7 @@ body {
     z-index: -1;
 }
 
-.layer-blur {
+.layer-blur-home {
     height: 0;
     width: 30rem;
     position: absolute;
@@ -32,6 +33,27 @@ body {
     rotate: -30deg;
     z-index: -1;
 }
+
+/* gradient- - pricing */
+.image-gradient-pricing {
+    position: absolute;
+    top: 10%;
+    opacity: 0.8;
+    z-index: -1;
+}
+
+.layer-blur-pricing {
+    width: 0;
+    height: 30rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-70%) rotate(0deg);
+    box-shadow: 0 0 700px 10px #e4def4;
+    z-index: -1;
+}
+
+
+
 
 .primary-transition {
     @apply transition-all duration-200 ease-in-out;
