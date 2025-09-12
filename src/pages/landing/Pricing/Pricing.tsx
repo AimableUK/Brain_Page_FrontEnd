@@ -649,6 +649,8 @@ const Pricing = () => {
             </div>
           </div>
         </section>
+
+        {/* Other More  */}
       </div>
     </div>
   );
