@@ -1,28 +1,32 @@
-import type { Metadata } from "next";
+"use client";
+
+import { ThemeProvider } from "next-themes";
 import { Urbanist } from "next/font/google";
 import "./globals.css";
-
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
-
-export const metadata: Metadata = {
-  title: "Brain Page App",
-  description: "This is your Go To Library",
-};
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body className={`${urbanist.variable} antialiased`}>
-        {children}
+    <html lang="en" className={urbanist.variable} suppressHydrationWarning>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          // disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

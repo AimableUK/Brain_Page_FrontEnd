@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { useState } from "react";
 import { RiMenuFold3Fill, RiMenuFold4Fill } from "react-icons/ri";
+import { ModeToggle } from "../Theme/ModeToggle";
 
 const MobileHeader = () => {
   const [menuDisplay, setMenuDisplay] = useState<boolean>(false);
@@ -47,39 +48,22 @@ const MobileHeader = () => {
             }
           `}
       >
-        <div className="flex flex-col w-full gap-2 mt-2">
-          <a
-            href="#"
-            className="border rounded-md px-2 py-1 bg-primary border-cardBorder hover:text-textSecondary hover:border-textSecondary primary-transition"
-          >
-            Features
-          </a>
-          <a href="#" className="hover:text-textSecondary primary-transition">
-            Pricing
-          </a>
-          <a href="#" className="hover:text-textSecondary primary-transition">
-            About
-          </a>
-          <a href="#" className="hover:text-textSecondary primary-transition">
-            Contact
-          </a>
-        </div>
-
         <div className="bg-gradient-to-l from-secondary to-secondary via-cardBorder py-[0.3px] mx-5 my-3"></div>
 
         <div className="flex flex-row gap-3 w-full">
           <a
             href="#"
-            className="rounded-md px-2 py-1 bg-primary border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full primary-transition"
+            className="rounded-md px-2 py-1 bg-background border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full primary-transition"
           >
             Log In
           </a>
           <a
             href="#"
-            className="rounded-md px-2 py-1 bg-primary border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full primary-transition"
+            className="rounded-md px-2 py-1 bg-background border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full primary-transition"
           >
             Sign Up
           </a>
+          <ModeToggle />
         </div>
       </div>
     </header>

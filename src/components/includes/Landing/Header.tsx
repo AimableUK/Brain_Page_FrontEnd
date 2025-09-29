@@ -3,7 +3,7 @@ import MobileHeader from "./MobileHeader";
 
 const Header = () => {
   return (
-    <div className=" mb-10">
+    <div className="">
       {/* Desktop Header */}
       <DeskHeader />
 
