@@ -27,7 +27,7 @@ const Features = () => {
             <IoBookSharp className="size-10 text-accent" />
             <div className="flex flex-col">
               <h1 className="font-bold">Streamlined Book Management</h1>
-              <p className="text-gray-400">
+              <p>
                 Organize, catalog, and track thousands of books effortlessly
                 with smart automation.
               </p>

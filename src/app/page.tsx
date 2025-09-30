@@ -10,7 +10,7 @@ import Header from "@/components/includes/Landing/Header";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-4 ">
+    <div className="flex flex-col gap-4">
       <Header />
       <>
         <LandingImg />
@@ -18,10 +18,10 @@ export default function Home() {
         {/* top details */}
         <div className="mx-10 my-14 md:mt-32 flex flex-col items-center text-center gap-y-8">
           <div className="flex flex-col gap-y-4">
-            <h5 className="font-bold text-4xl md:text-5xl">
+            <h5 className="font-bold text-textSecondary text-4xl md:text-5xl">
               Organize. Track. Grow Your Library.
             </h5>
-            <p className="md:text-lg">
+            <p className="md:text-lg text-textSecondary">
               Transform the Way You Manage Your Library with a Powerful library
               Management System
               <br />
@@ -38,9 +38,9 @@ export default function Home() {
             </button>
             <button
               type="button"
-              className="rounded-md px-3 py-1 bg-accent border border-gray-600 hover:border-textSecondary primary-transition active:scale-95"
+              className="rounded-md px-3 py-1 bg-accent text-white border border-gray-600 hover:border-textSecondary primary-transition active:scale-95"
             >
-              Start Browsing
+              Get Started
             </button>
           </div>
           <div className="flex flex-col md:flex-row justify-around text-center gap-3 w-full md:w-fit">

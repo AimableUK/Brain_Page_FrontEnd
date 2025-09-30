@@ -5,7 +5,7 @@ import { BsFillCalendarDateFill } from "react-icons/bs";
 
 const CloudSync = () => {
   return (
-    <div className="overflow-hidden py-8 md:py-24 sm:py-32">
+    <div className="overflow-hidden py-8 md:py-20 sm:py-3">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           <div>
@@ -17,45 +17,46 @@ const CloudSync = () => {
               <h2 className="text-base/7 font-semibold text-accent">
                 Cloud Sync Library Management
               </h2>
-              <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-white sm:text-5xl">
+              <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-primary sm:text-5xl">
                 Cloud Sync keeps your digital library updated across all
                 devices.
               </p>
-              <p className="mt-6 text-lg/8 text-gray-300">
+              <p className="mt-6 text-lg/8 textPrimaryLight">
                 Manage books, members, and records with a secure, cloud-based
                 library management system. Access your catalog anytime,
                 anywhere.
               </p>
 
-              <dl className="mt-10 max-w-xl space-y-8 text-base/7 text-gray-400 lg:max-w-none">
+              <dl className="mt-10 max-w-xl space-y-8 text-base/7 lg:max-w-none">
                 <div className="relative pl-9">
-                  <dt className="font-semibold text-white">
+                  <dt className="font-semibold text-primary">
                     <IoTimerOutline className="absolute top-1 left-1 size-5 text-accent" />
                     Real-Time Book Synchronization
                   </dt>
-                  <dd className="inline">
-                    Instantly reflect new titles or edits across your library&apos;s
-                    entire digital catalog, accessible on any device.
+                  <dd className="inline text-textPrimaryLight">
+                    Instantly reflect new titles or edits across your
+                    library&apos;s entire digital catalog, accessible on any
+                    device.
                   </dd>
                 </div>
 
                 <div className="relative pl-9">
-                  <dt className="font-semibold text-white">
+                  <dt className="font-semibold text-primary">
                     <BsFillCalendarDateFill className="absolute top-1 left-1 size-5 text-accent" />
                     Automated Due Date Reminders
                   </dt>
-                  <dd className="inline">
+                  <dd className="inline text-textPrimaryLight">
                     Send email or SMS alerts for book returns, renewals, or
                     overdue notices.
                   </dd>
                 </div>
 
                 <div className="relative pl-9">
-                  <dt className="font-semibold text-white">
+                  <dt className="font-semibold text-primary">
                     <LuDatabaseBackup className="absolute top-1 left-1 size-5 text-accent" />
                     Smart Search & Discovery
                   </dt>
-                  <dd className="inline">
+                  <dd className="inline text-textPrimaryLight">
                     Help users quickly find books, journals, or digital media
                     with advanced search and filters.
                   </dd>

@@ -66,7 +66,7 @@ const FAQ = () => {
           ))}
         </div>
 
-        <p className="text-center text-gray-400 textbase mt-9">
+        <p className="text-center text-textPrimaryLight textbase mt-9">
           Didn&apos;t find the answer you are looking for?&nbsp;
           <a
             href="#"

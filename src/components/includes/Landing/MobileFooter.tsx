@@ -8,7 +8,7 @@ import { ModeToggle } from "../Theme/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { IoMdLogIn } from "react-icons/io";
 
-const MobileHeader = () => {
+const MobileFooter = () => {
   const [menuDisplay, setMenuDisplay] = useState<boolean>(false);
 
   return (
@@ -68,4 +68,4 @@ const MobileHeader = () => {
   );
 };
 
-export default MobileHeader;
+export default MobileFooter;

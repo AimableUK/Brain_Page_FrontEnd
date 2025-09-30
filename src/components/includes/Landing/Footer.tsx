@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import DeskFooter from "./DeskFooter";
+import MobileFooter from "./MobileFooter";
 
 const Footer = () => {
   return (
-    <div>Footer</div>
-  )
-}
+    <div>
+      <DeskFooter />
+      <MobileFooter />
+    </div>
+  );
+};
 
-export default Footer
+export default Footer;

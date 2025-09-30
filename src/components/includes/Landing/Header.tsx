@@ -3,11 +3,8 @@ import MobileHeader from "./MobileHeader";
 
 const Header = () => {
   return (
-    <div className="">
-      {/* Desktop Header */}
+    <div>
       <DeskHeader />
-
-      {/* Tablet + mobile Header */}
       <MobileHeader />
     </div>
   );

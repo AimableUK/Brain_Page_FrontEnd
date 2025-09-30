@@ -21,6 +21,7 @@ module.exports = {
   				foreground: 'hsl(var(--accent-foreground))'
   			},
   			textPrimary: 'var(--textPrimary)',
+			textPrimaryLight: 'var(--textPrimaryLight)',
   			textSecondary: 'var(--textSecondary)',
   			cardBorder: 'var(--cardBorder)',
   			background: 'hsl(var(--background))',
@@ -63,13 +64,5 @@ module.exports = {
   	}
   },
   darkMode: ["class", "class"],
-  // safelist: [
-  //   "bg-primary",
-  //   "bg-secondary",
-  //   "bg-accent",
-  //   "text-textPrimary",
-  //   "text-textSecondary",
-  //   "border-cardBorder",
-  // ],
   plugins: [require("tailwindcss-animate")],
 };

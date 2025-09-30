@@ -19,7 +19,7 @@ const DeskHeader = () => {
         Brain Page
       </h3>
       <div className="flex flex-row gap-3 items-center">
-        <Button variant="ghost">Log In</Button>
+        <Button variant="ghost">Sign In</Button>
 
         <Button variant="outline" className="group">
           <IoMdLogIn className="self-center size-5 font-bold text-accent group-hover:text-primary" />
