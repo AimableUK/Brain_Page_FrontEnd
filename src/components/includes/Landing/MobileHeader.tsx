@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { RiMenuFold3Fill, RiMenuFold4Fill } from "react-icons/ri";
 import { ModeToggle } from "../Theme/ModeToggle";
+import { Button } from "@/components/ui/button";
+import { IoMdLogIn } from "react-icons/io";
 
 const MobileHeader = () => {
   const [menuDisplay, setMenuDisplay] = useState<boolean>(false);
@@ -51,19 +53,15 @@ const MobileHeader = () => {
         <div className="bg-gradient-to-l from-secondary to-secondary via-cardBorder py-[0.3px] mx-5 my-3"></div>
 
         <div className="flex flex-row gap-3 w-full">
-          <a
-            href="#"
-            className="rounded-md px-2 py-1 bg-background border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full primary-transition"
-          >
+          <Button variant="ghost" className="w-full">
             Log In
-          </a>
-          <a
-            href="#"
-            className="rounded-md px-2 py-1 bg-background border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full primary-transition"
-          >
-            Sign Up
-          </a>
-          <ModeToggle />
+          </Button>
+
+          <Button variant="outline" className="group w-full text-primary">
+            <IoMdLogIn className="self-center size-5 font-bold text-accent group-hover:text-primary" />
+            Sign up
+          </Button>
+          <ModeToggle className="w-fit p-3 md:p-0" />
         </div>
       </div>
     </header>

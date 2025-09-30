@@ -39,7 +39,7 @@ const FAQ = () => {
           {faqs.map((faq) => (
             <div
               key={faq.id}
-              className="card primary-transition bg-secondary border border-cardBorder rounded-md shadow-lg cursor-pointer"
+              className="card primary-transition bg-secondary border border-gray-600 rounded-md shadow-lg cursor-pointer"
             >
               <button
                 type="button"

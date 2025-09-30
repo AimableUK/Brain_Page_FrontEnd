@@ -11,7 +11,7 @@ body {
 /* OTHER STYLES */
 
 /* Gradient - home */
-.image-gradient-home {
+.image-gradient-home-dark {
   position: absolute;
   top: 0;
   right: 0;
@@ -19,13 +19,32 @@ body {
   z-index: -1;
 }
 
-.layer-blur-home {
+.image-gradient-home-light {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 1;
+  z-index: -1;
+}
+
+.layer-blur-home-dark {
   height: 0;
   width: 30rem;
   position: absolute;
   top: 20%;
   right: 0;
   box-shadow: 0 0 700px 15px #e4def4;
+  rotate: -30deg;
+  z-index: -1;
+}
+
+.layer-blur-home-light {
+  height: 0;
+  width: 30rem;
+  position: absolute;
+  top: 20%;
+  right: 0;
+  box-shadow: 0 0 700px 40px #101010;
   rotate: -30deg;
   z-index: -1;
 }
@@ -111,7 +130,7 @@ body {
 @layer base {
   :root {
     /* shadcn defaults */
-    --background: 0 0% 100%;
+    --background: 0 0% 98%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -182,7 +201,7 @@ body {
     /* #f7f7f7 */
     --textSecondary: 256, 73%, 77%;
     /* #b099ef */
-    --cardBorder: 220 5% 36%;
+    --cardBorder: 0, 0%, 0%;
     /* #555964 */
   }
 }

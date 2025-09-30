@@ -1,25 +1,20 @@
+import CloudSync from "@/components/Home/CloudSync";
 import FAQ from "@/components/Home/FAQ";
 import Features from "@/components/Home/Features";
+import LandingImg from "@/components/Home/LandingImg";
 import LineBreak from "@/components/Home/LineBreak";
 import SpotlightCard from "@/components/Home/SpotlightCard";
 import WhyUs from "@/components/Home/WhyUs";
 import Footer from "@/components/includes/Landing/Footer";
 import Header from "@/components/includes/Landing/Header";
-import Image from "next/image";
 
 export default function Home() {
   return (
     <div className="flex flex-col gap-4 ">
       <Header />
       <>
-        <Image
-          className="image-gradient-home z-10"
-          src="/gradient.png"
-          alt="landing gradient"
-          width={500}
-          height={500}
-        />
-        <div className="layer-blur-home"></div>
+        <LandingImg />
+        
         {/* top details */}
         <div className="mx-10 my-14 md:mt-32 flex flex-col items-center text-center gap-y-8">
           <div className="flex flex-col gap-y-4">
@@ -27,7 +22,8 @@ export default function Home() {
               Organize. Track. Grow Your Library.
             </h5>
             <p className="md:text-lg">
-              Transform the Way You Manage Your Library with a Powerful,
+              Transform the Way You Manage Your Library with a Powerful library
+              Management System
               <br />
               Intuitive, and Fully Digital System That Keeps Everything
               Organized and Accessible.
@@ -42,7 +38,7 @@ export default function Home() {
             </button>
             <button
               type="button"
-              className="rounded-md px-3 py-1 bg-accent border border-cardBorder hover:border-textSecondary primary-transition active:scale-95"
+              className="rounded-md px-3 py-1 bg-accent border border-gray-600 hover:border-textSecondary primary-transition active:scale-95"
             >
               Start Browsing
             </button>
@@ -58,6 +54,11 @@ export default function Home() {
 
         {/* why Us */}
         <WhyUs />
+
+        <LineBreak />
+
+        {/* why Us */}
+        <CloudSync />
 
         <LineBreak />
 

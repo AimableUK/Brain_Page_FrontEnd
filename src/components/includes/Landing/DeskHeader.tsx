@@ -1,7 +1,8 @@
-
 import React from "react";
 import Image from "next/image";
 import { ModeToggle } from "../Theme/ModeToggle";
+import { IoMdLogIn } from "react-icons/io";
+import { Button } from "@/components/ui/button";
 
 const DeskHeader = () => {
   return (
@@ -18,15 +19,12 @@ const DeskHeader = () => {
         Brain Page
       </h3>
       <div className="flex flex-row gap-3 items-center">
-        <a href="#" className="hover:text-textSecondary primary-transition">
-          Login
-        </a>
-        <a
-          href="#"
-          className="rounded-md px-2 py-1 bg-background border border-cardBorder hover:text-textSecondary hover:border-textSecondary w-full primary-transition"
-        >
-          Sign Up
-        </a>
+        <Button variant="ghost">Log In</Button>
+
+        <Button variant="outline" className="group">
+          <IoMdLogIn className="self-center size-5 font-bold text-accent group-hover:text-primary" />
+          Sign up
+        </Button>
         <ModeToggle />
       </div>
     </header>

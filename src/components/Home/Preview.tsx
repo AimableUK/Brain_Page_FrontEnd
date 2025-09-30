@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 
-const Preview = () => {
+const Preview = ({ className }: { className: string }) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,10 +43,7 @@ const Preview = () => {
   }, []);
 
   return (
-    <div
-      ref={cardRef}
-      className="card bg-secondary rounded-l-md p-2 border border-gray-600 text-center md:-ml-4 lg:-ml-0"
-    >
+    <div ref={cardRef} className={className}>
       <Image
         width={1300}
         height={1000}
