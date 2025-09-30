@@ -29,16 +29,16 @@ export default function Home() {
               Organized and Accessible.
             </p>
           </div>
-          <div className="flex flex-row gap-x-5">
+          <div className="flex flex-row gap-x-2 md:gap-x-5">
             <button
               type="button"
-              className="rounded-md px-4 py-1 bg-background border border-cardBorder hover:text-textSecondary hover:border-textSecondary primary-transition active:scale-95"
+              className="rounded-md px-2 md:px-4 py-1 bg-background border border-cardBorder hover:text-textSecondary hover:border-textSecondary primary-transition active:scale-95"
             >
               Learn More
             </button>
             <button
               type="button"
-              className="rounded-md px-3 py-1 bg-accent text-white border border-gray-600 hover:border-textSecondary primary-transition active:scale-95"
+              className="rounded-md px-2 md:px-3 py-1 bg-accent text-white border border-gray-600 hover:border-textSecondary primary-transition active:scale-95"
             >
               Get Started
             </button>

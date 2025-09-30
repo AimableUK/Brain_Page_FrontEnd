@@ -9,7 +9,7 @@ const LandingImg = () => {
     <>
       <Image
         className={`${
-          theme === "dark"
+          theme === "dark" || !theme
             ? "image-gradient-home-dark"
             : "image-gradient-home-light"
         } z-10`}
