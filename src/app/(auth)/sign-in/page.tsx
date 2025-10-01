@@ -3,6 +3,12 @@ import LineBreak from "@/components/Home/LineBreak";
 import Header from "@/components/includes/Landing/Header";
 import React from "react";
 
+export const metadata = {
+  title: "Sign In - Brain Page Library",
+  description:
+    "Sign in to your Brain Page Library account to manage books, authors, and borrowers.",
+};
+
 const page = () => {
   return (
     <div>

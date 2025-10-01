@@ -8,13 +8,19 @@ import WhyUs from "@/components/Home/WhyUs";
 import Footer from "@/components/includes/Landing/Footer";
 import Header from "@/components/includes/Landing/Header";
 
+export const metadata = {
+  title: "Brain Page - Library Management Made Easy",
+  description:
+    "Brain Page Library Management System to manage books, authors, and borrowers.",
+};
+
 export default function Home() {
   return (
     <div className="flex flex-col gap-4">
       <Header />
       <>
         <LandingImg />
-        
+
         {/* top details */}
         <div className="mx-10 my-14 md:mt-32 flex flex-col items-center text-center gap-y-8">
           <div className="flex flex-col gap-y-4">
