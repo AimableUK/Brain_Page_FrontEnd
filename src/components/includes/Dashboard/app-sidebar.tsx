@@ -1,19 +1,14 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
-  ArrowUpCircleIcon,
   BarChartIcon,
-  CameraIcon,
-  FileCodeIcon,
-  FileTextIcon,
   FolderIcon,
   HelpCircleIcon,
   LayoutDashboardIcon,
   ListIcon,
-  SearchIcon,
   SettingsIcon,
-} from "lucide-react"
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -23,10 +18,12 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { NavMain } from "@/components/Dashboard/Overview/nav-main"
-import { NavSecondary } from "@/components/Dashboard/Overview/nav-secondary"
-import { NavUser } from "@/components/Dashboard/Overview/nav-user"
+} from "@/components/ui/sidebar";
+import { NavMain } from "@/components/Dashboard/Overview/nav-main";
+import { NavSecondary } from "@/components/Dashboard/Overview/nav-secondary";
+import { NavUser } from "@/components/Dashboard/Overview/nav-user";
+import Image from "next/image";
+import Link from "next/link";
 
 const data = {
   user: {
@@ -37,95 +34,42 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "overview",
       icon: LayoutDashboardIcon,
     },
     {
       title: "Books",
-      url: "#",
+      url: "books",
       icon: ListIcon,
     },
     {
-      title: "Students",
-      url: "#",
-      icon: BarChartIcon,
-    },
-    {
       title: "Users",
-      url: "#",
+      url: "users",
       icon: FolderIcon,
     },
-  ],
-  navClouds: [
     {
-      title: "Capture",
-      icon: CameraIcon,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: FileTextIcon,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: FileCodeIcon,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      title: "Lending & Returns",
+      url: "lend-and-return",
+      icon: BarChartIcon,
     },
   ],
   navSecondary: [
     {
       title: "Settings",
-      url: "#",
+      url: "settings",
       icon: SettingsIcon,
     },
     {
       title: "Get Help",
-      url: "#",
+      url: "help",
       icon: HelpCircleIcon,
     },
-    {
-      title: "Search",
-      url: "#",
-      icon: SearchIcon,
-    },
-  ]
-}
+  ],
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -133,10 +77,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
-                <ArrowUpCircleIcon className="h-5 w-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+              <Link href="/dashboard/overview">
+                <Image
+                  src="/BrainPage.png"
+                  alt="Brain Page logo"
+                  width={30}
+                  height={30}
+                />
+                <span className="text-base font-semibold">Brain Page</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -149,5 +98,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
