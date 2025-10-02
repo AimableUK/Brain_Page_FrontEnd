@@ -27,7 +27,7 @@ import Link from "next/link";
 
 const data = {
   user: {
-    name: "shadcn",
+    name: "aimableuk",
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },

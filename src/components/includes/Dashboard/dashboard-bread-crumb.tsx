@@ -14,7 +14,6 @@ import {
 import React from "react";
 
 const breadcrumbNameMap: Record<string, string> = {
-  "/dashboard": "Dashboard",
   "/dashboard/overview": "Overview",
   "/dashboard/books": "Book Catalog",
   "/dashboard/users": "Users",

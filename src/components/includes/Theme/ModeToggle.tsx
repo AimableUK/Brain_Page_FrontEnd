@@ -25,14 +25,14 @@ export function ModeToggle({ className }: { className?: string }) {
       <DropdownMenuTrigger asChild className="card">
         <Button variant="outline" size="icon" className={className}>
           <Sun
-            className={`h-[1.2rem] w-[1.2rem] transition-all ${
+            className={`h-[1.2rem] w-[1.2rem] transition-all duration-500 ease-in-out ${
               resolvedTheme === "dark"
                 ? "scale-0 -rotate-90"
                 : "scale-100 rotate-0"
             }`}
           />
           <Moon
-            className={`absolute h-[1.2rem] w-[1.2rem] transition-all ${
+            className={`absolute h-[1.2rem] w-[1.2rem] transition-all duration-500 ease-in-out ${
               resolvedTheme === "dark"
                 ? "scale-100 rotate-0"
                 : "scale-0 rotate-90"
