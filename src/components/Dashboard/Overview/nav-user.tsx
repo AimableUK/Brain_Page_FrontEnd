@@ -24,6 +24,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function NavUser({
   user,
@@ -35,6 +36,7 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const pathName = usePathname();
 
   return (
     <SidebarMenu>
@@ -80,7 +82,11 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                className={
+                  pathName === "/dashboard/account" ? "bg-secondary" : ""
+                }
+              >
                 <Link
                   href="/dashboard/account"
                   className="flex flex-row items-center gap-x-1 w-full"
@@ -89,7 +95,11 @@ export function NavUser({
                   Account
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                className={
+                  pathName === "/dashboard/notifications" ? "bg-secondary" : ""
+                }
+              >
                 <Link
                   href="/dashboard/notifications"
                   className="flex flex-row items-center gap-x-1 w-full"
@@ -100,7 +110,11 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              className={
+                pathName === "/dashboard/sign-out" ? "bg-secondary" : ""
+              }
+            >
               <Link
                 href="/dashboard/sign-out"
                 className="flex flex-row items-center gap-x-1 w-full"
