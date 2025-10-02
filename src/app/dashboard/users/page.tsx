@@ -1,4 +1,7 @@
 import { SectionCards } from "@/components/Dashboard/users/section-cards";
+import { metadata as meta } from "@/lib/utils";
+
+export const metadata = meta.users;
 
 export default function page() {
   return (

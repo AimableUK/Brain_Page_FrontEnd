@@ -1,5 +1,8 @@
 import { ChartAreaInteractive } from "@/components/Dashboard/Overview/chart-area-interactive";
 import { SectionCards } from "@/components/Dashboard/Overview/section-cards";
+import { metadata as meta } from "@/lib/utils";
+
+export const metadata = meta.dashboard;
 
 export default function page() {
   return (

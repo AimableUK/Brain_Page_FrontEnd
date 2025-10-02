@@ -1,4 +1,7 @@
 import { SectionCards } from "@/components/Dashboard/books/section-cards";
+import { metadata as meta } from "@/lib/utils";
+
+export const metadata = meta.books;
 
 export default function page() {
   return (

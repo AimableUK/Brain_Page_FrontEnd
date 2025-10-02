@@ -7,12 +7,9 @@ import SpotlightCard from "@/components/Home/SpotlightCard";
 import WhyUs from "@/components/Home/WhyUs";
 import Footer from "@/components/includes/Landing/Footer";
 import Header from "@/components/includes/Landing/Header";
+import { metadata as meta } from "@/lib/utils";
 
-export const metadata = {
-  title: "Brain Page - Library Management Made Easy",
-  description:
-    "Brain Page Library Management System to manage books, authors, and borrowers.",
-};
+export const metadata = meta.landing;
 
 export default function Home() {
   return (
