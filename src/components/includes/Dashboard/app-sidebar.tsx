@@ -2,12 +2,12 @@
 
 import * as React from "react";
 import {
-  BarChartIcon,
-  FolderIcon,
   HelpCircleIcon,
   LayoutDashboardIcon,
-  ListIcon,
   SettingsIcon,
+  LibraryBig,
+  Users,
+  RefreshCcwDot,
 } from "lucide-react";
 
 import {
@@ -40,17 +40,17 @@ const data = {
     {
       title: "Books",
       url: "books",
-      icon: ListIcon,
+      icon: LibraryBig,
     },
     {
       title: "Users",
       url: "users",
-      icon: FolderIcon,
+      icon: Users,
     },
     {
       title: "Lending & Returns",
       url: "lend-and-return",
-      icon: BarChartIcon,
+      icon: RefreshCcwDot,
     },
   ],
   navSecondary: [

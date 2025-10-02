@@ -48,7 +48,7 @@ export function NavMain({
             <SidebarMenuItem key={item.title}>
               <Link href={item.url}>
                 <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon />}
+                  {item.icon && <item.icon className="text-accent" />}
                   <span>{item.title}</span>
                 </SidebarMenuButton>
               </Link>

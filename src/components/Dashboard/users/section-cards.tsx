@@ -18,9 +18,9 @@ export function SectionCards() {
     <div className="shadow-xs md:grid-cols-2 lg:grid-cols-4 grid grid-cols-1 gap-4 px-4 lg:px-6">
       <Card className="@container/card card bg-gradient-to-t from-primary/5 to-card dark:bg-card ">
         <CardHeader className="relative">
-          <CardDescription>Total Books</CardDescription>
+          <CardDescription>Total Users</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-            1,104
+            1,439
           </CardTitle>
           <div className="absolute right-4 top-4">
             <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
@@ -38,9 +38,9 @@ export function SectionCards() {
       </Card>
       <Card className="@container/card card bg-gradient-to-t from-primary/5 to-card dark:bg-card ">
         <CardHeader className="relative">
-          <CardDescription>Available Books</CardDescription>
+          <CardDescription>Active Users</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-            1,091
+            389
           </CardTitle>
           <div className="absolute right-4 top-4">
             <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
@@ -51,7 +51,7 @@ export function SectionCards() {
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <TrendingDownIcon className="size-4" />
+            Last 30 days <TrendingDownIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">
             Acquisition needs attention
@@ -60,9 +60,9 @@ export function SectionCards() {
       </Card>
       <Card className="@container/card card bg-gradient-to-t from-primary/5 to-card dark:bg-card ">
         <CardHeader className="relative">
-          <CardDescription>Total Users</CardDescription>
+          <CardDescription>Overdue Books</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-            45,678
+            78
           </CardTitle>
           <div className="absolute right-4 top-4">
             <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
@@ -73,16 +73,16 @@ export function SectionCards() {
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <TrendingUpIcon className="size-4" />
+            Users with Overdue Books <TrendingUpIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">Engagement exceed targets</div>
         </CardFooter>
       </Card>
       <Card className="@container/ card bg-gradient-to-t from-primary/5 to-card dark:bg-card ">
         <CardHeader className="relative">
-          <CardDescription>Growth Rate</CardDescription>
+          <CardDescription>Last Login</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-            4.5%
+            45
           </CardTitle>
           <div className="absolute right-4 top-4">
             <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">

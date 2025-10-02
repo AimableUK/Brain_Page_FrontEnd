@@ -16,10 +16,10 @@ export function SiteHeader() {
           <DashboardBreadcrumb />
           <div className="flex flex-row items-center gap-3 ">
             <p>
-              {new Date().toLocaleString("en-GB", {
-                weekday: "short",
+              {new Date().toLocaleString("en-US", {
+                weekday: "long",
+                month: "long",
                 day: "numeric",
-                month: "short",
                 year: "numeric",
               })}
             </p>
