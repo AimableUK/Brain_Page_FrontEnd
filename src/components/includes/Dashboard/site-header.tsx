@@ -14,8 +14,8 @@ export function SiteHeader() {
         />
         <div className="flex flex-row justify-between w-full items-center">
           <DashboardBreadcrumb />
-          <div className="flex flex-row items-center gap-3 ">
-            <p>
+          <div className="flex flex-row items-center gap-3">
+            <p className="rounded-md p-1 px-3 card  border border-gray-600">
               {new Date().toLocaleString("en-US", {
                 weekday: "long",
                 month: "long",

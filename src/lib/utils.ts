@@ -67,3 +67,14 @@ export const metadata = {
       "Stay updated with the latest alerts, lending reminders, and important updates from Brain Page Library.",
   },
 };
+
+export const breadcrumbNameMap: Record<string, string> = {
+  "/dashboard": "Dashboard",
+  "/dashboard/books": "Books",
+  "/dashboard/users": "Users",
+  "/dashboard/lending-return": "Lending & Return",
+  "/dashboard/settings": "Settings",
+  "/dashboard/help": "Help",
+  "/dashboard/account": "Account",
+  "/dashboard/notifications": "Notifications",
+};
