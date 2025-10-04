@@ -12,8 +12,9 @@ import {
   SortingState,
   useReactTable,
   VisibilityState,
+  Row,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
+import { FileDown, Plus, SlidersHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -36,9 +37,13 @@ import { Payment } from "@/lib/utils";
 export function DataTable({
   data,
   columns,
+  type,
+  filterableColumns,
 }: {
   data: Payment[];
   columns: ColumnDef<Payment>[];
+  type: "Book" | "User" | "lend-return";
+  filterableColumns?: string[];
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -47,10 +52,44 @@ export function DataTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [globalFilter, setGlobalFilter] = React.useState("");
+
+  const globalSearchFilter = (
+    row: Row<Payment>,
+    columnId: string,
+    filterValue: string
+  ) => {
+    const search = filterValue.toLowerCase();
+
+    const columnsToSearch =
+      filterableColumns ?? row.getAllCells().map((cell) => cell.column.id);
+
+    return columnsToSearch.some((col) => {
+      const value = row.getValue(col as keyof Payment);
+
+      if (value === undefined || value === null) return false;
+
+      if (col === "status") {
+        return (value ? "available" : "not available")
+          .toLowerCase()
+          .startsWith(search);
+      }
+
+      return String(value).toLowerCase().includes(search);
+    });
+  };
 
   const table = useReactTable({
     data,
     columns,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+      globalFilter,
+    },
+    onGlobalFilterChange: setGlobalFilter,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -59,53 +98,59 @@ export function DataTable({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
+    globalFilterFn: globalSearchFilter,
   });
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex flex-row justify-between gap-x-2 items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
+          placeholder="Search books..."
+          value={globalFilter}
+          onChange={(event) => setGlobalFilter(event.target.value)}
           className="max-w-sm"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+
+        <div className="flex flex-row gap-x-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                <SlidersHorizontal />
+                View
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button variant="outline">
+            <FileDown />
+            Export
+          </Button>
+          <Button className="bg-accent text-gray-50 hover:text-accent">
+            <Plus strokeWidth={2.4} />
+            Add&nbsp;
+            {type !== "Book" && "User" ? "Lend & Return" : type}
+          </Button>
+        </div>
       </div>
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-x-auto rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

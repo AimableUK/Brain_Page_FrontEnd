@@ -82,40 +82,82 @@ export const breadcrumbNameMap: Record<string, string> = {
 
 export type Payment = {
   id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
+  title: string;
+  author: string;
+  status: boolean;
+  isbn: string;
+  published_date: string;
+  genre: string;
+  langauge: string;
+  total_copies: string;
+  available_copies: string;
+  created_at: string;
 };
 
 export const data: Payment[] = [
   {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@example.com",
+    id: "b1x9k23a",
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    status: true,
+    isbn: "9780743273565",
+    published_date: "1925-04-10",
+    genre: "Fiction",
+    langauge: "English",
+    total_copies: "12",
+    available_copies: "5",
+    created_at: "2025-10-01",
   },
   {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@example.com",
+    id: "a7m4n11b",
+    title: "1984",
+    author: "George Orwell",
+    isbn: "9780451524935",
+    status: true,
+    published_date: "1949-06-08",
+    genre: "Dystopian",
+    langauge: "English",
+    total_copies: "10",
+    available_copies: "3",
+    created_at: "2025-09-28",
   },
   {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@example.com",
+    id: "c9k2v78c",
+    title: "To Kill a Mockingbird",
+    author: "Harper Lee",
+    isbn: "9780061120084",
+    status: false,
+    published_date: "1960-07-11",
+    genre: "Fiction",
+    langauge: "English",
+    total_copies: "8",
+    available_copies: "2",
+    created_at: "2025-10-02",
   },
   {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@example.com",
+    id: "d4t8y56d",
+    title: "Pride and Prejudice",
+    author: "Jane Austen",
+    isbn: "9780141439518",
+    status: false,
+    published_date: "1813-01-28",
+    genre: "Romance",
+    langauge: "English",
+    total_copies: "15",
+    available_copies: "10",
+    created_at: "2025-10-03",
   },
   {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@example.com",
+    id: "e6p3l90e",
+    title: "The Catcher in the Rye",
+    author: "J.D. Salinger",
+    isbn: "9780316769488",
+    status: true,
+    published_date: "1951-07-16",
+    genre: "Fiction",
+    langauge: "English",
+    total_copies: "7",
+    available_copies: "4",
+    created_at: "2025-10-04",
   },
 ];
