@@ -1,7 +1,7 @@
 import { SectionCards } from "@/components/Dashboard/books/section-cards";
 import PageHeader from "@/components/includes/Dashboard/PageHeader";
-import { DataTable } from "@/components/Table/dataTable";
 import { metadata as meta } from "@/lib/utils";
+import BooksTable from "../../../components/Dashboard/books/BooksTable";
 
 export const metadata = meta.books;
 
@@ -16,7 +16,7 @@ export default function page() {
 
         <SectionCards />
         <div className="px-4 lg:px-6">
-          <DataTable />
+          <BooksTable />
         </div>
       </div>
     </div>
