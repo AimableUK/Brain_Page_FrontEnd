@@ -60,7 +60,7 @@ export function SectionCards() {
       </Card>
       <Card className="@container/card card bg-gradient-to-t from-primary/5 to-card dark:bg-card ">
         <CardHeader className="relative">
-          <CardDescription>Total Users</CardDescription>
+          <CardDescription>Total Members</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             45,678
           </CardTitle>

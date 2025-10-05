@@ -14,7 +14,15 @@ import {
   VisibilityState,
   Row,
 } from "@tanstack/react-table";
-import { FileDown, Plus, SlidersHorizontal } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  FileDown,
+  Plus,
+  SlidersHorizontal,
+  StepBack,
+  StepForward,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,6 +40,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type DataTableProps<T> = {
   data: T[];
@@ -102,6 +120,18 @@ export function DataTable<T extends Record<string, unknown>>({
     onRowSelectionChange: setRowSelection,
     globalFilterFn: globalSearchFilter,
   });
+
+  const step = 10;
+  const totalRows = data.length;
+  const dynamicPageSizes: number[] = [];
+
+  for (let size = step; size < totalRows; size += step) {
+    dynamicPageSizes.push(size);
+  }
+
+  if (!dynamicPageSizes.includes(totalRows)) {
+    dynamicPageSizes.push(totalRows);
+  }
 
   return (
     <div className="w-full">
@@ -207,23 +237,78 @@ export function DataTable<T extends Record<string, unknown>>({
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
+        <div className="flex items-center gap-2">
+          <button
+            className="border rounded-sm p-1 disabled:opacity-55"
+            onClick={() => table.firstPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <StepBack size={18} />
+          </button>
+          <button
+            className="border rounded-sm p-1 -mr-1 disabled:opacity-55"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            className="border rounded-sm p-1 disabled:opacity-55"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
-          </Button>
+            <ChevronRight size={18} />
+          </button>
+          <button
+            className="border rounded-sm p-1 disabled:opacity-55"
+            onClick={() => table.lastPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <StepForward size={18} />
+          </button>
+          <span className="flex items-center gap-1">
+            <div>Page</div>
+            <strong>
+              {table.getState().pagination.pageIndex + 1} of{" "}
+              {table.getPageCount().toLocaleString()}
+            </strong>
+          </span>
+          <span className="flex items-center gap-1">
+            | Go to page:
+            <Input
+              type="number"
+              min="1"
+              max={table.getPageCount()}
+              defaultValue={table.getState().pagination.pageIndex + 1}
+              onChange={(e) => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                table.setPageIndex(page);
+              }}
+              className="border p-1 rounded w-16"
+            />
+          </span>
+          <Select
+            value={table.getState().pagination.pageSize.toString()}
+            onValueChange={(value: string) => table.setPageSize(Number(value))}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Show Page" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Show Page</SelectLabel>
+                {dynamicPageSizes.map((pageSize) => (
+                  <SelectItem key={pageSize} value={pageSize.toString()}>
+                    Show {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          Showing {table.getRowModel().rows.length.toLocaleString()} of{" "}
+          {table.getRowCount().toLocaleString()} Rows
         </div>
       </div>
     </div>

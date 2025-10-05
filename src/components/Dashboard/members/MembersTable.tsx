@@ -79,17 +79,7 @@ export const columns: ColumnDef<Member>[] = [
   },
   {
     accessorKey: "phone",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Phone
-          <ArrowUpDown />
-        </Button>
-      );
-    },
+    header: () => <div>Phone</div>,
     cell: ({ row }) => <div className="lowercase">{row.getValue("phone")}</div>,
   },
   {
@@ -117,7 +107,7 @@ export const columns: ColumnDef<Member>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Joined at
+          Joined At
           <ArrowUpDown />
         </Button>
       );

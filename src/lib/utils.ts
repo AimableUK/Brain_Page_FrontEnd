@@ -264,4 +264,32 @@ export const members: Member[] = [
     last_login: "2025-10-03",
     joined_at: "2025-09-22",
   },
+  {
+    id: "u10z8902k",
+    full_name: "Orolle Fiston",
+    email: "orolle.fiston@example.com",
+    phone: "+250780998927",
+    address: "rullido, Rwanda",
+    last_login: "2025-10-05",
+    joined_at: "2025-09-28",
+  },
+  {
+    id: "u10z8942k",
+    full_name: "Gad Irakoze",
+    email: "gad.250@example.com",
+    phone: "+250780929927",
+    address: "bugaragara, Rwanda",
+    last_login: "2025-10-02",
+    joined_at: "2025-07-16",
+  },
+  {
+    id: "u10z8920k",
+    full_name: "Shumbusho yvan",
+    email: "Shumbusho.yvan@example.com",
+    phone: "+250780990977",
+    address: "rwamagama, Rwanda",
+    last_login: "2025-10-01",
+    joined_at: "2025-08-12",
+  },
 ];
+
