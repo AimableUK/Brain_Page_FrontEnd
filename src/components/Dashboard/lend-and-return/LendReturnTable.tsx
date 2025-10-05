@@ -13,13 +13,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   ArrowUpDown,
   CircleCheckBig,
-  Clipboard,
   Clock4,
   Eye,
-  FilePenLine,
   MoreHorizontal,
   TimerReset,
-  Trash,
 } from "lucide-react";
 import { lendings, LendReturn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -163,6 +160,10 @@ export const columns: ColumnDef<LendReturn>[] = [
     cell: ({ row }) => {
       const book = row.original;
 
+      const pendingLendings = lendings.filter(
+        (lending) => lending.id === book.id && lending.status !== "Returned"
+      );
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -173,25 +174,26 @@ export const columns: ColumnDef<LendReturn>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(book.id)}
-            >
-              <Clipboard />
-              Copy book ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Eye />
-              View details
+              View Book
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <FilePenLine />
-              Edit Book
+              <Eye />
+              View Member
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-red-500">
-              <Trash />
-              Delete Book
-            </DropdownMenuItem>
+            {/* <DropdownMenuSeparator /> */}
+            {pendingLendings.length > 0 && (
+              <>
+                <DropdownMenuSeparator />
+                {pendingLendings.map((lending) => (
+                  <DropdownMenuItem key={lending.id}>
+                    <CircleCheckBig className="text-green-400" size={17} />
+                    Mark as returned
+                  </DropdownMenuItem>
+                ))}
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -203,7 +205,7 @@ const LendReturnTable = () => (
   <DataTable<LendReturn>
     data={lendings}
     columns={columns}
-    type="Book"
+    type="LendReturn"
     filterableColumns={["status", "member_name", "book_title", "Lent_date"]}
   />
 );

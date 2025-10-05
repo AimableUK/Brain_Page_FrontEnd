@@ -90,9 +90,8 @@ export function DataTable<T extends Record<string, unknown>>({
       if (value === undefined || value === null) return false;
 
       if (col === "status") {
-        return (value ? "available" : "not available")
-          .toLowerCase()
-          .includes(search);
+        const status = String(value).toLowerCase();
+        return status.includes(search.toLowerCase());
       }
 
       return String(value).toLowerCase().includes(search);
@@ -137,10 +136,12 @@ export function DataTable<T extends Record<string, unknown>>({
     <div className="w-full">
       <div className="flex flex-row justify-between gap-x-2 items-center py-4">
         <Input
-          placeholder={`Search ${type}s...`}
+          placeholder={`Search ${
+            type === "LendReturn" ? "Lend & Return" : type
+          }s...`}
           value={globalFilter}
           onChange={(event) => setGlobalFilter(event.target.value)}
-          className="max-w-sm"
+          className="max-w-sm border focus:border-accent"
         />
 
         <div className="flex flex-row gap-x-2">
@@ -171,15 +172,36 @@ export function DataTable<T extends Record<string, unknown>>({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            className="active:scale-95 transition-all duration-150 ease-in-out"
+          >
             <FileDown />
             Export
           </Button>
-          <Button className="bg-accent text-gray-50 hover:text-accent">
-            <Plus strokeWidth={2.4} />
-            Add&nbsp;
-            {type !== "Book" && type !== "Member" ? "Lend & Return" : type}
-          </Button>
+          {type === "LendReturn" ? (
+            <>
+              <Button
+                variant="secondary"
+                className="border hover:border-accent active:scale-95 transition-all duration-150 ease-in-out"
+              >
+                <Plus strokeWidth={2.4} />
+                Return book
+              </Button>
+              <Button className="bg-accent text-gray-50 hover:text-accent active:scale-95 transition-all duration-150 ease-in-out">
+                <Plus strokeWidth={2.4} />
+                Lend Book
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button className="bg-accent text-gray-50 hover:text-accent active:scale-95 transition-all duration-150 ease-in-out">
+                <Plus strokeWidth={2.4} />
+                Add&nbsp;
+                {type === "Book" ? "Book" : "Member"}
+              </Button>
+            </>
+          )}
         </div>
       </div>
       <div className="overflow-x-auto rounded-md border">

@@ -180,7 +180,7 @@ const BooksTable = () => (
     data={books}
     columns={columns}
     type="Book"
-    filterableColumns={["title", "author", "status", "genre", "published_date"]}
+    filterableColumns={["status", "title", "author", "genre", "published_date"]}
   />
 );
 

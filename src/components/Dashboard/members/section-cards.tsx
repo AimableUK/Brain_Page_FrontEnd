@@ -18,7 +18,7 @@ export function SectionCards() {
     <div className="shadow-xs md:grid-cols-2 lg:grid-cols-4 grid grid-cols-1 gap-4 px-4 lg:px-6">
       <Card className="@container/card card bg-gradient-to-t from-primary/5 to-card dark:bg-card ">
         <CardHeader className="relative">
-          <CardDescription>Total Users</CardDescription>
+          <CardDescription>Total Members</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             1,439
           </CardTitle>
@@ -38,7 +38,7 @@ export function SectionCards() {
       </Card>
       <Card className="@container/card card bg-gradient-to-t from-primary/5 to-card dark:bg-card ">
         <CardHeader className="relative">
-          <CardDescription>Active Users</CardDescription>
+          <CardDescription>Active Members</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             389
           </CardTitle>
@@ -73,9 +73,9 @@ export function SectionCards() {
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Users with Overdue Books <TrendingUpIcon className="size-4" />
+            Overdue Book Holders <TrendingUpIcon className="size-4" />
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
+          <div className="text-muted-foreground">Members with Overdue Books</div>
         </CardFooter>
       </Card>
       <Card className="@container/ card bg-gradient-to-t from-primary/5 to-card dark:bg-card ">
