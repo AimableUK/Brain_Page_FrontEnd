@@ -32,19 +32,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Payment } from "@/lib/utils";
 
-export function DataTable({
+type DataTableProps<T> = {
+  data: T[];
+  columns: ColumnDef<T>[];
+  type?: string;
+  filterableColumns?: (keyof T)[];
+};
+
+export function DataTable<T extends Record<string, unknown>>({
   data,
   columns,
   type,
   filterableColumns,
-}: {
-  data: Payment[];
-  columns: ColumnDef<Payment>[];
-  type: "Book" | "User" | "lend-return";
-  filterableColumns?: string[];
-}) {
+}: DataTableProps<T>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -55,8 +56,8 @@ export function DataTable({
   const [globalFilter, setGlobalFilter] = React.useState("");
 
   const globalSearchFilter = (
-    row: Row<Payment>,
-    columnId: string,
+    row: Row<T>,
+    _columnId: string,
     filterValue: string
   ) => {
     const search = filterValue.toLowerCase();
@@ -65,14 +66,15 @@ export function DataTable({
       filterableColumns ?? row.getAllCells().map((cell) => cell.column.id);
 
     return columnsToSearch.some((col) => {
-      const value = row.getValue(col as keyof Payment);
+      const key = col as keyof T;
+      const value = row.getValue(key as string);
 
       if (value === undefined || value === null) return false;
 
       if (col === "status") {
         return (value ? "available" : "not available")
           .toLowerCase()
-          .startsWith(search);
+          .includes(search);
       }
 
       return String(value).toLowerCase().includes(search);
@@ -105,7 +107,7 @@ export function DataTable({
     <div className="w-full">
       <div className="flex flex-row justify-between gap-x-2 items-center py-4">
         <Input
-          placeholder="Search books..."
+          placeholder={`Search ${type}s...`}
           value={globalFilter}
           onChange={(event) => setGlobalFilter(event.target.value)}
           className="max-w-sm"
@@ -146,7 +148,7 @@ export function DataTable({
           <Button className="bg-accent text-gray-50 hover:text-accent">
             <Plus strokeWidth={2.4} />
             Add&nbsp;
-            {type !== "Book" && "User" ? "Lend & Return" : type}
+            {type !== "Book" && type !== "Member" ? "Lend & Return" : type}
           </Button>
         </div>
       </div>

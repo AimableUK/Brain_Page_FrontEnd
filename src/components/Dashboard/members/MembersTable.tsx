@@ -12,19 +12,17 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   ArrowUpDown,
-  CircleDashed,
-  CircleFadingPlus,
   Clipboard,
   Eye,
   FilePenLine,
   MoreHorizontal,
   Trash,
 } from "lucide-react";
-import { Book, books } from "@/lib/utils";
+import { Member, members } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/Table/dataTable";
 
-export const columns: ColumnDef<Book>[] = [
+export const columns: ColumnDef<Member>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -48,86 +46,84 @@ export const columns: ColumnDef<Book>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: () => <div>Status</div>,
-    cell: ({ row }) => {
-      const status = row.getValue("status");
-      return (
-        <div className="flex items-center gap-2 lowercase">
-          {status ? (
-            <div className="border border-secondary gap-2 p-1 px-2 text-sm flex flex-row rounded-lg items-center">
-              <CircleFadingPlus className="text-green-400" size={17} />
-              <span>available</span>
-            </div>
-          ) : (
-            <div className="border border-secondary gap-2 p-1 px-2 text-sm flex flex-row rounded-lg items-center">
-              <CircleDashed className="text-red-500" size={17} />
-              <span>not available</span>
-            </div>
-          )}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "title",
+    accessorKey: "full_name",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Title
-          <ArrowUpDown />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
-  },
-  {
-    accessorKey: "author",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Author
+          Full name
           <ArrowUpDown />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("author")}</div>
+      <div className="capitalize">{row.getValue("full_name")}</div>
     ),
   },
   {
-    accessorKey: "total_copies",
-    header: () => <div>Quantity</div>,
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("total_copies")}</div>
-    ),
-  },
-  {
-    accessorKey: "genre",
-    header: () => <div>Genre</div>,
-    cell: ({ row }) => <div className="lowercase">{row.getValue("genre")}</div>,
-  },
-  {
-    accessorKey: "published_date",
+    accessorKey: "email",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Published_date
+          Email
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+  },
+  {
+    accessorKey: "phone",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Phone
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="lowercase">{row.getValue("phone")}</div>,
+  },
+  {
+    accessorKey: "address",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Address
           <ArrowUpDown />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("published_date")}</div>
+      <div className="lowercase">{row.getValue("address")}</div>
+    ),
+  },
+  {
+    accessorKey: "joined_at",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Joined at
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="lowercase">{row.getValue("joined_at")}</div>
     ),
   },
   {
@@ -135,7 +131,7 @@ export const columns: ColumnDef<Book>[] = [
     enableHiding: false,
     accessorKey: "actions",
     cell: ({ row }) => {
-      const book = row.original;
+      const member = row.original;
 
       return (
         <DropdownMenu>
@@ -148,10 +144,10 @@ export const columns: ColumnDef<Book>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(book.id)}
+              onClick={() => navigator.clipboard.writeText(member.id)}
             >
               <Clipboard />
-              Copy book ID
+              Copy member ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
@@ -160,11 +156,11 @@ export const columns: ColumnDef<Book>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem>
               <FilePenLine />
-              Edit Book
+              Edit Member
             </DropdownMenuItem>
             <DropdownMenuItem className="text-red-500">
               <Trash />
-              Delete Book
+              Delete Member
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -173,13 +169,13 @@ export const columns: ColumnDef<Book>[] = [
   },
 ];
 
-const BooksTable = () => (
-  <DataTable<Book>
-    data={books}
+const MembersTable = () => (
+  <DataTable<Member>
+    data={members}
     columns={columns}
-    type="Book"
-    filterableColumns={["title", "author", "status", "genre", "published_date"]}
+    type="Member"
+    filterableColumns={["full_name", "email", "phone", "address"]}
   />
 );
 
-export default BooksTable;
+export default MembersTable;

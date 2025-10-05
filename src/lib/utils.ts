@@ -71,7 +71,7 @@ export const metadata = {
 export const breadcrumbNameMap: Record<string, string> = {
   "/dashboard": "Dashboard",
   "/dashboard/books": "Books",
-  "/dashboard/users": "Users",
+  "/dashboard/members": "Members",
   "/dashboard/lending-return": "Lending & Return",
   "/dashboard/settings": "Settings",
   "/dashboard/help": "Help",
@@ -80,7 +80,7 @@ export const breadcrumbNameMap: Record<string, string> = {
 };
 
 
-export type Payment = {
+export type Book = {
   id: string;
   title: string;
   author: string;
@@ -94,7 +94,7 @@ export type Payment = {
   created_at: string;
 };
 
-export const data: Payment[] = [
+export const books: Book[] = [
   {
     id: "b1x9k23a",
     title: "The Great Gatsby",
@@ -159,5 +159,109 @@ export const data: Payment[] = [
     total_copies: "7",
     available_copies: "4",
     created_at: "2025-10-04",
+  },
+];
+
+
+export type Member = {
+  id: string;
+  full_name: string;
+  email: string;
+  phone: string;
+  address: string;
+  last_login: string;
+  joined_at: string;
+};
+
+export const members: Member[] = [
+  {
+    id: "u1x9a23b",
+    full_name: "Aimable Ukobizaba",
+    email: "aimable.ukobizaba@example.com",
+    phone: "+250781234567",
+    address: "Kigali, Rwanda",
+    last_login: "2025-10-05",
+    joined_at: "2025-09-15",
+  },
+  {
+    id: "u2m4n11c",
+    full_name: "Grace Niyonsaba",
+    email: "grace.niyonsaba@example.com",
+    phone: "+250788654321",
+    address: "Musanze, Rwanda",
+    last_login: "2025-10-03",
+    joined_at: "2025-09-18",
+  },
+  {
+    id: "u3k7v55d",
+    full_name: "Jean Claude Habimana",
+    email: "jean.habimana@example.com",
+    phone: "+250780123456",
+    address: "Huye, Rwanda",
+    last_login: "2025-10-02",
+    joined_at: "2025-09-20",
+  },
+  {
+    id: "u4t8y44e",
+    full_name: "Alice Uwase",
+    email: "alice.uwase@example.com",
+    phone: "+250789876543",
+    address: "Rubavu, Rwanda",
+    last_login: "2025-09-29",
+    joined_at: "2025-09-10",
+  },
+  {
+    id: "u5p3l60f",
+    full_name: "Eric Nshimiyimana",
+    email: "eric.nshimiyimana@example.com",
+    phone: "+250782345678",
+    address: "Nyagatare, Rwanda",
+    last_login: "2025-10-01",
+    joined_at: "2025-09-12",
+  },
+  {
+    id: "u6c2v70g",
+    full_name: "Diane Mukamana",
+    email: "diane.mukamana@example.com",
+    phone: "+250789123654",
+    address: "Rusizi, Rwanda",
+    last_login: "2025-09-28",
+    joined_at: "2025-09-08",
+  },
+  {
+    id: "u7b9k23h",
+    full_name: "Patrick Mugisha",
+    email: "patrick.mugisha@example.com",
+    phone: "+250783456789",
+    address: "Karongi, Rwanda",
+    last_login: "2025-10-04",
+    joined_at: "2025-09-16",
+  },
+  {
+    id: "u8d5r34i",
+    full_name: "Sandrine Uwimana",
+    email: "sandrine.uwimana@example.com",
+    phone: "+250781112233",
+    address: "Kayonza, Rwanda",
+    last_login: "2025-09-30",
+    joined_at: "2025-09-14",
+  },
+  {
+    id: "u9e1j91j",
+    full_name: "Kevin Iradukunda",
+    email: "kevin.iradukunda@example.com",
+    phone: "+250787777777",
+    address: "Rwamagana, Rwanda",
+    last_login: "2025-10-05",
+    joined_at: "2025-09-25",
+  },
+  {
+    id: "u10z8q22k",
+    full_name: "Vanessa Ingabire",
+    email: "vanessa.ingabire@example.com",
+    phone: "+250780998877",
+    address: "Gicumbi, Rwanda",
+    last_login: "2025-10-03",
+    joined_at: "2025-09-22",
   },
 ];

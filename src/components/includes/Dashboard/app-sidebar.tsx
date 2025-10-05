@@ -43,8 +43,8 @@ const data = {
       icon: LibraryBig,
     },
     {
-      title: "Users",
-      url: "users",
+      title: "Members",
+      url: "members",
       icon: Users,
     },
     {

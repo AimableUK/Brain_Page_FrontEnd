@@ -1,4 +1,5 @@
-import { SectionCards } from "@/components/Dashboard/users/section-cards";
+import MembersTable from "@/components/Dashboard/members/MembersTable";
+import { SectionCards } from "@/components/Dashboard/members/section-cards";
 import PageHeader from "@/components/includes/Dashboard/PageHeader";
 import { metadata as meta } from "@/lib/utils";
 
@@ -13,7 +14,9 @@ export default function page() {
           subtitle="View and manage all registered users."
         />
         <SectionCards />
-        <div className="px-4 lg:px-6">{/* <ChartAreaInteractive /> */}</div>
+        <div className="px-4 lg:px-6">
+          <MembersTable />
+        </div>
       </div>
     </div>
   );
