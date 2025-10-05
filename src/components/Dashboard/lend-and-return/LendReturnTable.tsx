@@ -12,19 +12,20 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   ArrowUpDown,
-  CircleDashed,
-  CircleFadingPlus,
+  CircleCheckBig,
   Clipboard,
+  Clock4,
   Eye,
   FilePenLine,
   MoreHorizontal,
+  TimerReset,
   Trash,
 } from "lucide-react";
-import { Book, books } from "@/lib/utils";
+import { lendings, LendReturn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/Table/dataTable";
 
-export const columns: ColumnDef<Book>[] = [
+export const columns: ColumnDef<LendReturn>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -51,18 +52,19 @@ export const columns: ColumnDef<Book>[] = [
     accessorKey: "status",
     header: () => <div>Status</div>,
     cell: ({ row }) => {
-      const status = row.getValue("status");
+      const status = row.getValue("status") as string;
       return (
         <div className="flex items-center gap-2 lowercase">
-          {status ? (
+          {status && (
             <div className="border border-secondary gap-2 p-1 px-2 text-sm flex flex-row rounded-lg items-center">
-              <CircleFadingPlus className="text-green-400" size={17} />
-              <span>available</span>
-            </div>
-          ) : (
-            <div className="border border-secondary gap-2 p-1 px-2 text-sm flex flex-row rounded-lg items-center">
-              <CircleDashed className="text-red-500" size={17} />
-              <span>not available</span>
+              {status === "Returned" && (
+                <CircleCheckBig className="text-green-400" size={17} />
+              )}
+              {status === "Lent" && <TimerReset className="" size={17} />}
+              {status === "Overdue" && (
+                <Clock4 className="text-red-500" size={17} />
+              )}
+              <span>{status.toLowerCase()}</span>
             </div>
           )}
         </div>
@@ -70,66 +72,88 @@ export const columns: ColumnDef<Book>[] = [
     },
   },
   {
-    accessorKey: "title",
+    accessorKey: "book_title",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Title
+          Book Title
           <ArrowUpDown />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("title")}</div>
+      <div className="capitalize">{row.getValue("book_title")}</div>
     ),
   },
   {
-    accessorKey: "author",
+    accessorKey: "member_name",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Author
+          Member Name
           <ArrowUpDown />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("author")}</div>
+      <div className="capitalize">{row.getValue("member_name")}</div>
     ),
   },
   {
-    accessorKey: "total_copies",
-    header: () => <div>Quantity</div>,
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("total_copies")}</div>
-    ),
-  },
-  {
-    accessorKey: "genre",
-    header: () => <div>Genre</div>,
-    cell: ({ row }) => <div className="lowercase">{row.getValue("genre")}</div>,
-  },
-  {
-    accessorKey: "published_date",
+    accessorKey: "Lent_date",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Published_date
+          Lent At
           <ArrowUpDown />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("published_date")}</div>
+      <div className="lowercase">{row.getValue("Lent_date")}</div>
+    ),
+  },
+  {
+    accessorKey: "return_date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Returned At
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="lowercase">{row.getValue("return_date")}</div>
+    ),
+  },
+  {
+    accessorKey: "overdue_date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Due Date
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="lowercase">{row.getValue("overdue_date")}</div>
     ),
   },
   {
@@ -175,13 +199,13 @@ export const columns: ColumnDef<Book>[] = [
   },
 ];
 
-const BooksTable = () => (
-  <DataTable<Book>
-    data={books}
+const LendReturnTable = () => (
+  <DataTable<LendReturn>
+    data={lendings}
     columns={columns}
     type="Book"
-    filterableColumns={["title", "author", "status", "genre", "published_date"]}
+    filterableColumns={["status", "member_name", "book_title", "Lent_date"]}
   />
 );
 
-export default BooksTable;
+export default LendReturnTable;

@@ -1,3 +1,4 @@
+import LendReturnTable from "@/components/Dashboard/lend-and-return/LendReturnTable";
 import { SectionCards } from "@/components/Dashboard/lend-and-return/section-cards";
 import PageHeader from "@/components/includes/Dashboard/PageHeader";
 import { metadata as meta } from "@/lib/utils";
@@ -14,7 +15,9 @@ export default function page() {
         />
 
         <SectionCards />
-        <div className="px-4 lg:px-6">{/* <ChartAreaInteractive /> */}</div>
+        <div className="px-4 lg:px-6">
+          <LendReturnTable />
+        </div>
       </div>
     </div>
   );
