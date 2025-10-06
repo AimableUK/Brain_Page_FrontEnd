@@ -2,12 +2,52 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
+import { Book, LendReturn, Member } from "@/lib/utils";
+
+interface BookFormProps {
+  data?: Book;
+  action: "add" | "edit" | "delete";
+}
+const BookForm = dynamic<BookFormProps>(
+  () => import("../Dashboard/books/BookForm"),
+  {
+    loading: () => (
+      <span className="text-center py-4 text-gray-500">Loading form...</span>
+    ),
+  }
+);
+
+interface MemberFormProps {
+  data?: Member;
+  action: "add" | "edit" | "delete";
+}
+const MemberForm = dynamic<MemberFormProps>(
+  () => import("../Dashboard/members/MemberForm"),
+  {
+    loading: () => (
+      <span className="text-center py-4 text-gray-500">Loading form...</span>
+    ),
+  }
+);
+
+interface LendReturnFormProps {
+  data?: LendReturn;
+  action: "add" | "edit" | "delete";
+}
+const LendReturnForm = dynamic<LendReturnFormProps>(
+  () => import("../Dashboard/lend-and-return/LendReturnForm"),
+  {
+    loading: () => (
+      <span className="text-center py-4 text-gray-500">Loading form...</span>
+    ),
+  }
+);
 
 interface FormModalProps<T extends Record<string, unknown>> {
   type?: string;
@@ -24,13 +64,34 @@ const FormModal = <T extends Record<string, unknown>>({
   action,
   rowdata,
 }: FormModalProps<T>) => {
+  const MainForm = ({
+    data,
+    action,
+  }: {
+    data?: Record<string, unknown>;
+    action: "add" | "edit" | "delete";
+  }) => {
+    switch (type) {
+      case "Book":
+        return <BookForm action={action} data={data as Book} />;
+      case "Member":
+        return <MemberForm action={action} data={data as Member} />;
+      default:
+        return <LendReturnForm action={action} data={data as LendReturn} />;
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <form>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>
-              {action === "delete"
+              {type === "Lend"
+                ? "Create a new Lending"
+                : type === "Return"
+                ? "Create a new Return"
+                : action === "delete"
                 ? `Delete ${type}`
                 : action === "edit"
                 ? `Edit ${type}`
@@ -38,22 +99,22 @@ const FormModal = <T extends Record<string, unknown>>({
             </DialogTitle>
           </DialogHeader>
 
-          {action === "delete" && (
-            <DialogDescription>
-              Are you sure you want to delete {rowdata?.title as string}?
-            </DialogDescription>
+          {action === "delete" && type !== "LendReturn" && (
+            <div>
+              <MainForm action="delete" data={rowdata} />
+            </div>
           )}
 
-          {action === "edit" && (
-            <DialogDescription>
-              Are you sure you want to edit {rowdata?.title as string}?
-            </DialogDescription>
+          {action === "edit" && type !== "LendReturn" && (
+            <div>
+              <MainForm action="edit" data={rowdata} />
+            </div>
           )}
 
           {action === "add" && (
-            <DialogDescription>
-              Are you sure you want to add {rowdata?.title as string}?
-            </DialogDescription>
+            <div>
+              <MainForm action="add" data={rowdata} />
+            </div>
           )}
 
           <DialogFooter>

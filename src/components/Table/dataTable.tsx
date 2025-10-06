@@ -51,7 +51,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import FormModal from "../Forms/FormModal";
-import { Book } from "@/lib/utils";
+import { Book, LendReturn } from "@/lib/utils";
 
 type DataTableProps<T> = {
   data: T[];
@@ -78,6 +78,7 @@ export function DataTable<T extends Record<string, unknown>>({
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState("");
+  const [valueType, setValueType] = React.useState<"Lend" | "Return">("Lend");
 
   const globalSearchFilter = (
     row: Row<T>,
@@ -138,6 +139,11 @@ export function DataTable<T extends Record<string, unknown>>({
     dynamicPageSizes.push(totalRows);
   }
 
+  const handleLendReturn = (value: "Lend" | "Return") => {
+    setValueType(value);
+    setOpen(true);
+  };
+
   return (
     <div className="w-full">
       <div className="flex flex-row justify-between gap-x-2 items-center py-4">
@@ -190,14 +196,25 @@ export function DataTable<T extends Record<string, unknown>>({
               <Button
                 variant="secondary"
                 className="border hover:border-accent active:scale-95 transition-all duration-150 ease-in-out"
+                onClick={() => handleLendReturn("Return")}
               >
                 <Plus strokeWidth={2.4} />
                 Return book
               </Button>
-              <Button className="bg-accent text-gray-50 hover:text-accent active:scale-95 transition-all duration-150 ease-in-out">
+              <Button
+                className="bg-accent text-gray-50 hover:text-accent active:scale-95 transition-all duration-150 ease-in-out"
+                onClick={() => handleLendReturn("Lend")}
+              >
                 <Plus strokeWidth={2.4} />
                 Lend Book
               </Button>
+
+              <FormModal<LendReturn>
+                type={valueType}
+                open={open}
+                setOpen={setOpen}
+                action="add"
+              />
             </>
           ) : (
             <>
@@ -213,7 +230,7 @@ export function DataTable<T extends Record<string, unknown>>({
                 type={type}
                 open={open}
                 setOpen={setOpen}
-                action='add'
+                action="add"
               />
             </>
           )}

@@ -40,7 +40,6 @@ export function NavMain({
   }[];
 }) {
   const pathName = usePathname();
-  console.log(pathName);
 
   return (
     <SidebarGroup>
