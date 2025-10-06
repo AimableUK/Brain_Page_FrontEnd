@@ -50,12 +50,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import FormModal from "../Forms/FormModal";
+import { Book } from "@/lib/utils";
 
 type DataTableProps<T> = {
   data: T[];
   columns: ColumnDef<T>[];
   type?: string;
   filterableColumns?: (keyof T)[];
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function DataTable<T extends Record<string, unknown>>({
@@ -63,6 +67,8 @@ export function DataTable<T extends Record<string, unknown>>({
   columns,
   type,
   filterableColumns,
+  open,
+  setOpen,
 }: DataTableProps<T>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -195,11 +201,20 @@ export function DataTable<T extends Record<string, unknown>>({
             </>
           ) : (
             <>
-              <Button className="bg-accent text-gray-50 hover:text-accent active:scale-95 transition-all duration-150 ease-in-out">
+              <Button
+                className="bg-accent text-gray-50 hover:text-accent active:scale-95 transition-all duration-150 ease-in-out"
+                onClick={() => setOpen(true)}
+              >
                 <Plus strokeWidth={2.4} />
                 Add&nbsp;
                 {type === "Book" ? "Book" : "Member"}
               </Button>
+              <FormModal<Book>
+                type={type}
+                open={open}
+                setOpen={setOpen}
+                action='add'
+              />
             </>
           )}
         </div>
