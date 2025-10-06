@@ -33,7 +33,9 @@ export function NavSecondary({
             <SidebarMenuItem
               key={item.title}
               className={`${
-                pathName === "/dashboard/" + item.url ? "bg-secondary" : ""
+                pathName === "/dashboard/" + item.url
+                  ? "bg-secondary border border-accent"
+                  : "border border-background"
               } rounded-md`}
             >
               <SidebarMenuButton asChild>

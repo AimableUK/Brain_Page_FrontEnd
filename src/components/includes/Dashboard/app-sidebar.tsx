@@ -81,8 +81,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <Image
                   src="/BrainPage.png"
                   alt="Brain Page logo"
-                  width={30}
-                  height={30}
+                  width={35}
+                  height={35}
                 />
                 <span className="text-base font-semibold">Brain Page</span>
               </Link>

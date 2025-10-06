@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  BellIcon,
-  LogOutIcon,
-  MoreVerticalIcon,
-  UserCircleIcon,
-} from "lucide-react";
+import { LogOutIcon, MoreVerticalIcon, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -49,7 +44,7 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">PG</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -70,7 +65,7 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">BP</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -81,48 +76,38 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
+            <DropdownMenuGroup className="flex flex-col gap-y-1">
               <DropdownMenuItem
                 className={
-                  pathName === "/dashboard/account" ? "bg-secondary" : ""
+                  pathName === "/dashboard/account"
+                    ? "bg-secondary border border-accent"
+                    : "border border-background"
                 }
               >
                 <Link
                   href="/dashboard/account"
                   className="flex flex-row items-center gap-x-1 w-full"
                 >
-                  <UserCircleIcon />
+                  <User strokeWidth={1.7} size={21} />
                   Account
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem
                 className={
-                  pathName === "/dashboard/notifications" ? "bg-secondary" : ""
+                  pathName === "/dashboard/sign-out"
+                    ? "bg-secondary border border-accent"
+                    : "border border-background"
                 }
               >
                 <Link
-                  href="/dashboard/notifications"
+                  href="/dashboard/sign-out"
                   className="flex flex-row items-center gap-x-1 w-full"
                 >
-                  <BellIcon />
-                  Notifications
+                  <LogOutIcon strokeWidth={1.7} size={21} />
+                  Sign out
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className={
-                pathName === "/dashboard/sign-out" ? "bg-secondary" : ""
-              }
-            >
-              <Link
-                href="/dashboard/sign-out"
-                className="flex flex-row items-center gap-x-1 w-full"
-              >
-                <LogOutIcon />
-                Sign out
-              </Link>
-            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
