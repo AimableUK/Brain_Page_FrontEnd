@@ -1,12 +1,9 @@
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 import { Book, LendReturn, Member } from "@/lib/utils";
 
@@ -27,6 +24,7 @@ interface MemberFormProps {
   data?: Member;
   action: "add" | "edit" | "delete";
 }
+
 const MemberForm = dynamic<MemberFormProps>(
   () => import("../Dashboard/members/MemberForm"),
   {
@@ -83,7 +81,7 @@ const FormModal = <T extends Record<string, unknown>>({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <form>
+      <div>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>
@@ -116,20 +114,8 @@ const FormModal = <T extends Record<string, unknown>>({
               <MainForm action="add" data={rowdata} />
             </div>
           )}
-
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button
-              type="submit"
-              variant={action === "delete" ? "destructive" : "default"}
-            >
-              {action === "delete" ? "Delete" : "Save changes"}
-            </Button>
-          </DialogFooter>
         </DialogContent>
-      </form>
+      </div>
     </Dialog>
   );
 };
