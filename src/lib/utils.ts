@@ -88,7 +88,7 @@ export type Book = {
   isbn: string;
   published_date: string;
   genre: string;
-  langauge: string;
+  language: string;
   total_copies: string;
   available_copies: string;
   created_at: string;
@@ -103,7 +103,7 @@ export const books: Book[] = [
     isbn: "9780743273565",
     published_date: "1925-04-10",
     genre: "Fiction",
-    langauge: "English",
+    language: "English",
     total_copies: "12",
     available_copies: "5",
     created_at: "2025-10-01",
@@ -116,7 +116,7 @@ export const books: Book[] = [
     status: true,
     published_date: "1949-06-08",
     genre: "Dystopian",
-    langauge: "English",
+    language: "English",
     total_copies: "10",
     available_copies: "3",
     created_at: "2025-09-28",
@@ -129,7 +129,7 @@ export const books: Book[] = [
     status: false,
     published_date: "1960-07-11",
     genre: "Fiction",
-    langauge: "English",
+    language: "English",
     total_copies: "8",
     available_copies: "2",
     created_at: "2025-10-02",
@@ -142,7 +142,7 @@ export const books: Book[] = [
     status: false,
     published_date: "1813-01-28",
     genre: "Romance",
-    langauge: "English",
+    language: "English",
     total_copies: "15",
     available_copies: "10",
     created_at: "2025-10-03",
@@ -155,7 +155,7 @@ export const books: Book[] = [
     status: true,
     published_date: "1951-07-16",
     genre: "Fiction",
-    langauge: "English",
+    language: "English",
     total_copies: "7",
     available_copies: "4",
     created_at: "2025-10-04",

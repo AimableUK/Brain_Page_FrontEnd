@@ -91,13 +91,14 @@ export const bookSchema = z.object({
         .min(3, { message: "Genre must be at least 3 characters" })
         .max(15, { message: "Genre must be at most 15 characters" }),
 
-    langauge: z
+
+    language: z
         .string()
         .min(3, { message: "Language must be at least 3 characters" })
         .max(15, { message: "Language must be at most 15 characters" }),
 
     total_copies: z
-        .number({ message: "Please enter a valid number" })
+        .string({ message: "Please enter a valid number" })
 
 })
 

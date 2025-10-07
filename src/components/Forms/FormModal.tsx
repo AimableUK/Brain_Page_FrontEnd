@@ -82,7 +82,7 @@ const FormModal = <T extends Record<string, unknown>>({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <div>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {type === "Lend"
