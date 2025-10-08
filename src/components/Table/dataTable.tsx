@@ -209,12 +209,21 @@ export function DataTable<T extends Record<string, unknown>>({
                 Lend Book
               </Button>
 
-              <FormModal<LendReturn>
-                type={valueType}
-                open={open}
-                setOpen={setOpen}
-                action="add"
-              />
+              {valueType === "Lend" ? (
+                <FormModal<LendReturn>
+                  type={valueType}
+                  open={open}
+                  setOpen={setOpen}
+                  action="add"
+                />
+              ) : (
+                <FormModal<LendReturn>
+                  type={valueType}
+                  open={open}
+                  setOpen={setOpen}
+                  action="add"
+                />
+              )}
             </>
           ) : (
             <>

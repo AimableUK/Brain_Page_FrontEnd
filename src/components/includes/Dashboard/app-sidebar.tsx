@@ -8,6 +8,7 @@ import {
   LibraryBig,
   Users,
   RefreshCcwDot,
+  UserRound,
 } from "lucide-react";
 
 import {
@@ -29,7 +30,7 @@ const data = {
   user: {
     name: "aimableuk",
     email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: UserRound,
   },
   navMain: [
     {

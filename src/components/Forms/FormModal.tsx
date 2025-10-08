@@ -1,6 +1,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -24,7 +25,6 @@ interface MemberFormProps {
   data?: Member;
   action: "add" | "edit" | "delete";
 }
-
 const MemberForm = dynamic<MemberFormProps>(
   () => import("../Dashboard/members/MemberForm"),
   {
@@ -34,12 +34,25 @@ const MemberForm = dynamic<MemberFormProps>(
   }
 );
 
-interface LendReturnFormProps {
+interface LendFormProps {
   data?: LendReturn;
   action: "add" | "edit" | "delete";
 }
-const LendReturnForm = dynamic<LendReturnFormProps>(
-  () => import("../Dashboard/lend-and-return/LendReturnForm"),
+const LendForm = dynamic<LendFormProps>(
+  () => import("../Dashboard/lend-and-return/LendForm"),
+  {
+    loading: () => (
+      <span className="text-center py-4 text-gray-500">Loading form...</span>
+    ),
+  }
+);
+
+interface ReturnFormProps {
+  data?: LendReturn;
+  action: "add" | "edit" | "delete";
+}
+const ReturnForm = dynamic<ReturnFormProps>(
+  () => import("../Dashboard/lend-and-return/ReturnForm"),
   {
     loading: () => (
       <span className="text-center py-4 text-gray-500">Loading form...</span>
@@ -74,8 +87,10 @@ const FormModal = <T extends Record<string, unknown>>({
         return <BookForm action={action} data={data as Book} />;
       case "Member":
         return <MemberForm action={action} data={data as Member} />;
+      case "Lend":
+        return <LendForm action={action} data={data as LendReturn} />;
       default:
-        return <LendReturnForm action={action} data={data as LendReturn} />;
+        return <ReturnForm action={action} data={data as LendReturn} />;
     }
   };
 
@@ -96,6 +111,15 @@ const FormModal = <T extends Record<string, unknown>>({
                 : `Add ${type}`}
             </DialogTitle>
           </DialogHeader>
+          <DialogDescription className="sr-only">
+            {action === "add"
+              ? `Create a new ${type}`
+              : action === "edit"
+              ? `Edit ${type}`
+              : action === "delete"
+              ? `Delete ${type}`
+              : ""}
+          </DialogDescription>
 
           {action === "delete" && type !== "LendReturn" && (
             <div>

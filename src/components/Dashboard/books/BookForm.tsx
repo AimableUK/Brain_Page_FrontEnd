@@ -25,12 +25,19 @@ const BookForm = ({
 }) => {
   const form = useForm<BookSchema>({
     resolver: zodResolver(bookSchema),
+    defaultValues: {
+      title: data?.title || "",
+      author: data?.author || "",
+      isbn: data?.isbn || "",
+      genre: data?.genre || "",
+      language: data?.language || "",
+      total_copies: data?.total_copies || "",
+    },
   });
 
   function onSubmit(values: BookSchema) {
     console.log(values);
   }
-
 
   return action === "delete" ? (
     <div>Are you sure you want to delete this book {data?.title}</div>
@@ -46,7 +53,7 @@ const BookForm = ({
             <FormField
               control={form.control}
               name="title"
-              defaultValue={data?.title}
+              defaultValue={data?.title || ""}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Title</FormLabel>
@@ -62,7 +69,7 @@ const BookForm = ({
             <FormField
               control={form.control}
               name="author"
-              defaultValue={data?.author}
+              defaultValue={data?.author || ""}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Author</FormLabel>
@@ -78,7 +85,7 @@ const BookForm = ({
             <FormField
               control={form.control}
               name="isbn"
-              defaultValue={data?.isbn}
+              defaultValue={data?.isbn || ""}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>ISBN</FormLabel>
@@ -103,7 +110,7 @@ const BookForm = ({
                       onChange={(date) => field.onChange(date || undefined)}
                       title="Publish Date"
                       helperText="Published On"
-                      defaultValue={data?.published_date} 
+                      defaultValue={data?.published_date}
                     />
                   </FormControl>
                   <FormMessage />
@@ -115,7 +122,7 @@ const BookForm = ({
             <FormField
               control={form.control}
               name="genre"
-              defaultValue={data?.genre}
+              defaultValue={data?.genre || ""}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Genre</FormLabel>
@@ -131,7 +138,7 @@ const BookForm = ({
             <FormField
               control={form.control}
               name="language"
-              defaultValue={data?.language}
+              defaultValue={data?.language || ""}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Language</FormLabel>
@@ -147,7 +154,7 @@ const BookForm = ({
             <FormField
               control={form.control}
               name="total_copies"
-              defaultValue={data?.total_copies}
+              defaultValue={data?.total_copies || ""}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Total Copies</FormLabel>

@@ -24,6 +24,12 @@ const MemberForm = ({
 }) => {
   const form = useForm<MemberSchema>({
     resolver: zodResolver(memberSchema),
+    defaultValues: {
+      full_name: data?.full_name || "",
+      email: data?.email || "",
+      address: data?.address || "",
+      phone: data?.phone || "",
+    },
   });
 
   function onSubmit(values: MemberSchema) {
@@ -32,7 +38,7 @@ const MemberForm = ({
 
   return action === "delete" ? (
     <div>Are you sure you want to delete member: {data?.full_name}</div>
-  ) : (
+  ) :  (
     <Card>
       <CardContent className="my-1">
         <Form {...form}>
@@ -44,7 +50,7 @@ const MemberForm = ({
             <FormField
               control={form.control}
               name="full_name"
-              defaultValue={data?.full_name}
+              defaultValue={data?.full_name || ""}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Full Name</FormLabel>
@@ -60,7 +66,7 @@ const MemberForm = ({
             <FormField
               control={form.control}
               name="email"
-              defaultValue={data?.email}
+              defaultValue={data?.email || ""}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
@@ -76,7 +82,7 @@ const MemberForm = ({
             <FormField
               control={form.control}
               name="phone"
-              defaultValue={data?.phone}
+              defaultValue={data?.phone || ""}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
@@ -92,7 +98,7 @@ const MemberForm = ({
             <FormField
               control={form.control}
               name="address"
-              defaultValue={data?.address}
+              defaultValue={data?.address || ""}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Address</FormLabel>

@@ -113,10 +113,11 @@ export type ReturnSchema = z.infer<typeof returnSchema>
 
 
 export const lendSchema = z.object({
-    member: z.string(),
-    book: z.string(),
-    lent_date: z.date(),
-    return_date: z.date()
-})
+    member: z.string().min(1, "Member is required"),
+    book: z.string().min(1, "Book is required"),
+    lent_date: z.string().optional(),
+    return_date: z.string().min(1, "Return date is required"),
+});
+
 
 export type LendSchema = z.infer<typeof lendSchema>

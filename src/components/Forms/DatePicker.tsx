@@ -104,12 +104,15 @@ const DatePicker = ({
                 onChange?.(date as Date);
                 setOpen(false);
               }}
+              disabled={(date) =>
+                date > new Date() || date < new Date("1900-01-01")
+              }
             />
           </PopoverContent>
         </Popover>
       </div>
       <div className="text-muted-foreground px-1 text-sm">
-        {helperText}{" "}
+        {value && helperText}{" "}
         <span className="font-medium">{value ? formatDate(value) : ""}</span>
       </div>
     </div>
