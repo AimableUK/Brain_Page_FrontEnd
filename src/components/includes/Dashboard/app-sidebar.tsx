@@ -4,7 +4,6 @@ import * as React from "react";
 import {
   HelpCircleIcon,
   LayoutDashboardIcon,
-  SettingsIcon,
   LibraryBig,
   Users,
   RefreshCcwDot,
@@ -55,11 +54,6 @@ const data = {
     },
   ],
   navSecondary: [
-    {
-      title: "Settings",
-      url: "settings",
-      icon: SettingsIcon,
-    },
     {
       title: "Get Help",
       url: "help",
