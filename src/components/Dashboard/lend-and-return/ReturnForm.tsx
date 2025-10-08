@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { returnSchema, ReturnSchema } from "@/lib/formValidation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const LendForm = ({ data }: { data?: LendReturn }) => {
   const form = useForm<ReturnSchema>({
@@ -23,8 +24,29 @@ const LendForm = ({ data }: { data?: LendReturn }) => {
     },
   });
 
+  const promise = new Promise<{ name: string }>((resolve) => {
+    setTimeout(() => {
+      resolve({ name: "My toast" });
+    }, 3000);
+  });
+
   function onSubmit(values: ReturnSchema) {
     console.log(values);
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: (data: { name: string }) => {
+        return {
+          message: `Book Returned`,
+          description: `The Book is Returned successfully`,
+        };
+      },
+      error: "Error",
+      style: {
+        background: "#803bf7",
+        border: "!bg-gray-200",
+      },
+    });
   }
 
   return (

@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import DatePicker from "@/components/Forms/DatePicker";
+import { toast } from "sonner";
 
 const LendForm = ({ data }: { data?: LendReturn }) => {
   const form = useForm<LendSchema>({
@@ -30,12 +31,33 @@ const LendForm = ({ data }: { data?: LendReturn }) => {
     defaultValues: {
       book: data?.book_title || "",
       member: data?.member_name || "",
-      return_date: data?.return_date
+      return_date: data?.return_date,
     },
+  });
+
+  const promise = new Promise<{ name: string }>((resolve) => {
+    setTimeout(() => {
+      resolve({ name: "My toast" });
+    }, 3000);
   });
 
   function onSubmit(values: LendSchema) {
     console.log(values);
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: (data: { name: string }) => {
+        return {
+          message: `Book Lended`,
+          description: `The Book is Lended successfully`,
+        };
+      },
+      error: "Error",
+      style: {
+        background: "#803bf7",
+        border: "!bg-gray-200",
+      },
+    });
   }
 
   return (

@@ -4,6 +4,7 @@ import Head from "next/head";
 import { ThemeProvider } from "next-themes";
 import { Urbanist } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -96,6 +97,7 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

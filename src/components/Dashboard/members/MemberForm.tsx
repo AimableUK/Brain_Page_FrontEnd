@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { memberSchema, MemberSchema } from "@/lib/formValidation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const MemberForm = ({
   data,
@@ -32,13 +33,36 @@ const MemberForm = ({
     },
   });
 
+  const promise = new Promise<{ name: string }>((resolve) => {
+    setTimeout(() => {
+      resolve({ name: "My toast" });
+    }, 3000);
+  });
+
   function onSubmit(values: MemberSchema) {
     console.log(values);
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: (data: { name: string }) => {
+        return {
+          message: `Member Is ${action === "add" ? "Added" : "Updated"}`,
+          description: `The Member ${
+            action === "add" ? "Added" : "Updated"
+          } successfully`,
+        };
+      },
+      error: "Error",
+      style: {
+        background: "#803bf7",
+        border: "!bg-gray-200",
+      },
+    });
   }
 
   return action === "delete" ? (
     <div>Are you sure you want to delete member: {data?.full_name}</div>
-  ) :  (
+  ) : (
     <Card>
       <CardContent className="my-1">
         <Form {...form}>

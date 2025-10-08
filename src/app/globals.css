@@ -231,3 +231,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* @media (max-width: 800px) {
+  table {
+    overflow-x: auto !important;
+  }
+} */

@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { bookSchema, BookSchema } from "@/lib/formValidation";
 import DatePicker from "@/components/Forms/DatePicker";
+import { toast } from "sonner";
 
 const BookForm = ({
   data,
@@ -35,8 +36,31 @@ const BookForm = ({
     },
   });
 
+  const promise = new Promise<{ name: string }>((resolve) => {
+    setTimeout(() => {
+      resolve({ name: "My toast" });
+    }, 3000);
+  });
+
   function onSubmit(values: BookSchema) {
     console.log(values);
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: (data: { name: string }) => {
+        return {
+          message: `Book Is ${action === "add" ? "Added" : "Updated"}`,
+          description: `The Book ${
+            action === "add" ? "Added" : "Updated"
+          } successfully`,
+        };
+      },
+      error: "Error",
+      style: {
+        background: "#803bf7",
+        border: "!bg-gray-200",
+      },
+    });
   }
 
   return action === "delete" ? (
