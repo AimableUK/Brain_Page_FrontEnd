@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
@@ -18,17 +19,54 @@ import {
   MoreHorizontal,
   Trash,
 } from "lucide-react";
-import { Member, members } from "@/lib/utils";
+import { Member } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/Table/dataTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormModal from "@/components/Forms/FormModal";
+import axios from "axios";
+import TimeAgo from "@/hooks/TimeAgo";
 
 const MembersTable = () => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  type ModalData = { member: Member; action: "edit" | "delete" };
+  type ModalData = {
+    member: Member;
+    action: "edit" | "delete";
+    openMemberId: number;
+  };
   const [modalData, setModalData] = useState<ModalData | null>(null);
+  const [members, setMembers] = useState<Member[]>([]);
+  const [fetchError, setFetchError] = useState(null);
+
+  const fetchMembers = async () => {
+    try {
+      setFetchError(null);
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/v1/members/",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setMembers(response?.data || []);
+      setLoading(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setFetchError(
+          error.response?.data?.detail || "Failed to load members."
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMembers();
+  }, []);
 
   const columns: ColumnDef<Member>[] = [
     {
@@ -84,14 +122,14 @@ const MembersTable = () => {
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("email")}</div>
+        <div className="lowercase">{row.getValue("email") || "-"}</div>
       ),
     },
     {
       accessorKey: "phone",
       header: () => <div>Phone</div>,
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("phone")}</div>
+        <div className="lowercase">{row.getValue("phone") || "-"}</div>
       ),
     },
     {
@@ -112,20 +150,22 @@ const MembersTable = () => {
       ),
     },
     {
-      accessorKey: "joined_at",
+      accessorKey: "created_at",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Joined At
+            Created At
             <ArrowUpDown />
           </Button>
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("joined_at")}</div>
+        <div className="lowercase">
+          <TimeAgo timestamp={row.getValue("created_at")} />
+        </div>
       ),
     },
     {
@@ -158,14 +198,26 @@ const MembersTable = () => {
                   View details
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => setModalData({ member, action: "edit" })}
+                  onClick={() =>
+                    setModalData({
+                      member,
+                      action: "edit",
+                      openMemberId: Number(member.id),
+                    })
+                  }
                 >
                   <FilePenLine />
                   Edit Member
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-red-500"
-                  onClick={() => setModalData({ member, action: "delete" })}
+                  onClick={() =>
+                    setModalData({
+                      member,
+                      action: "delete",
+                      openMemberId: Number(member.id),
+                    })
+                  }
                 >
                   <Trash />
                   Delete Member
@@ -174,7 +226,9 @@ const MembersTable = () => {
             </DropdownMenu>
             <FormModal<Member>
               type="Member"
-              open={!!modalData}
+              open={
+                !!modalData && modalData?.openMemberId === Number(member.id)
+              }
               setOpen={() => setModalData(null)}
               action={modalData?.action ?? "edit"}
               rowdata={modalData?.member}
@@ -192,6 +246,9 @@ const MembersTable = () => {
       filterableColumns={["full_name", "email", "phone", "address"]}
       open={open}
       setOpen={setOpen}
+      loading={loading}
+      fetchError={fetchError}
+      refetch={() => fetchMembers()}
     />
   );
 };

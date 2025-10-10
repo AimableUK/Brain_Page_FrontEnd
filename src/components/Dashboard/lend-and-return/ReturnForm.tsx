@@ -1,3 +1,5 @@
+"use client";
+
 import { LendReturn } from "@/lib/utils";
 import React from "react";
 import { Button } from "@/components/ui/button";

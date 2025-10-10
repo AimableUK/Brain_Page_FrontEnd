@@ -27,6 +27,7 @@ const BookForm = dynamic<BookFormProps>(
 interface MemberFormProps {
   data?: Member;
   action: "add" | "edit" | "delete";
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const MemberForm = dynamic<MemberFormProps>(
   () => import("../Dashboard/members/MemberForm"),
@@ -97,7 +98,7 @@ const FormModal = <T extends Record<string, unknown>>({
           <BookForm action={action} data={data as Book} setOpen={setOpen} />
         );
       case "Member":
-        return <MemberForm action={action} data={data as Member} />;
+        return <MemberForm action={action} data={data as Member} setOpen={setOpen} />;
       case "Lend":
         return <LendForm action={action} data={data as LendReturn} />;
       default:

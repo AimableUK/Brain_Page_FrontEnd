@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
+
 import { Member } from "@/lib/utils";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,14 +18,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { memberSchema, MemberSchema } from "@/lib/formValidation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import axios from "axios";
 
 const MemberForm = ({
   data,
   action,
+  setOpen,
 }: {
   data?: Member;
   action: "add" | "edit" | "delete";
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const [books, setBooks] = useState<Member[]>([]);
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<MemberSchema>({
     resolver: zodResolver(memberSchema),
     defaultValues: {
@@ -33,35 +42,148 @@ const MemberForm = ({
     },
   });
 
-  const promise = new Promise<{ name: string }>((resolve) => {
-    setTimeout(() => {
-      resolve({ name: "My toast" });
-    }, 3000);
-  });
+  const onSubmit = async (values: MemberSchema) => {
+    try {
+      setLoading(true);
 
-  function onSubmit(values: MemberSchema) {
-    console.log(values);
+      const payload = {
+        full_name: values?.full_name,
+        ...(values?.email.length >= 1 && { email: values.email }),
+        ...(values?.phone.length >= 1 && { phone: values.phone }),
+        address: values?.address,
+      };
 
-    toast.promise(promise, {
-      loading: "Loading...",
-      success: (data: { name: string }) => {
-        return {
+      if ((action === "edit" || action === "delete") && !data?.id) {
+        throw new Error("No member ID provided for edit/delete");
+      }
+
+      const headers = { "Content-Type": "application/json" };
+
+      const promise =
+        action === "add"
+          ? axios.post("http://127.0.0.1:8000/api/v1/members/", payload, {
+              headers,
+            })
+          : action === "edit"
+          ? axios.put(
+              `http://127.0.0.1:8000/api/v1/members/${data?.id}/`,
+              payload,
+              { headers }
+            )
+          : axios.delete(`http://127.0.0.1:8000/api/v1/members/${data?.id}/`, {
+              headers,
+            });
+
+      toast.promise(promise, {
+        loading: "Processing...",
+        success: () => ({
           message: `Member Is ${action === "add" ? "Added" : "Updated"}`,
-          description: `The Member ${
-            action === "add" ? "Added" : "Updated"
-          } successfully`,
-        };
-      },
-      error: "Error",
-      style: {
-        background: "#803bf7",
-        border: "!bg-gray-200",
-      },
-    });
-  }
+          description: `The member was ${
+            action === "add" ? "added" : "updated"
+          } successfully.`,
+        }),
+        error: (error) => ({
+          message: "Error",
+          description:
+            error?.response?.data?.detail || "Failed to process your request.",
+        }),
+      });
+
+      const response = await promise;
+      setBooks(response?.data || []);
+      form.reset();
+      setOpen(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const data = error.response?.data;
+
+        if (data) {
+          if (data) {
+            const messages = Object.values(data).flat().join(" and ");
+            toast.error("Error", { description: messages });
+          }
+        } else {
+          toast.error("Error", { description: "Something went wrong." });
+        }
+      } else {
+        toast.error("Error", { description: "Something went wrong." });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onSubmitDelete = async () => {
+    try {
+      if (!data?.id) throw new Error("No book ID provided for delete");
+
+      setLoading(true);
+
+      const headers = { "Content-Type": "application/json" };
+
+      const promise = axios.delete(
+        `http://127.0.0.1:8000/api/v1/members/${data.id}/`,
+        { headers }
+      );
+
+      toast.promise(promise, {
+        loading: "Deleting...",
+        success: () => ({
+          message: "Member Deleted",
+          description: `${data.full_name} was deleted successfully.`,
+        }),
+        error: (error) => ({
+          message: "Error",
+          description:
+            error?.response?.data?.detail ||
+            "Failed to delete this member, Try Again.",
+        }),
+      });
+
+      const response = await promise;
+      setBooks(response?.data || []);
+      setOpen(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const data = error.response?.data;
+
+        if (data) {
+          const messages = Object.values(data).flat().join(" and ");
+          toast.error("Error", { description: messages });
+        } else {
+          toast.error("Error", { description: "Something went wrong." });
+        }
+      } else {
+        toast.error("Error", { description: "Something went wrong." });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return action === "delete" ? (
-    <div>Are you sure you want to delete member: {data?.full_name}</div>
+    <Card>
+      <div className="m-4 gap-4 mt-3 flex flex-col justify-between w-full items-center">
+        <p>Are you sure you want to delete {data?.full_name}?</p>
+        <div className="flex flex-row gap-1 justify-center w-2/4">
+          <Button
+            type="button"
+            className="w-full"
+            onClick={() => setOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="w-full"
+            variant="destructive"
+            onClick={onSubmitDelete}
+          >
+            Delete
+          </Button>
+        </div>
+      </div>
+    </Card>
   ) : (
     <Card>
       <CardContent className="my-1">

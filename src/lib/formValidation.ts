@@ -1,4 +1,4 @@
-import { z, ZodNumber } from "zod"
+import { literal, z, ZodNumber } from "zod"
 
 export const loginSchema = z.object({
     identifier: z
@@ -51,13 +51,13 @@ export const memberSchema = z.object({
         .max(50, { message: "full name must not exceed 50 characters" }),
 
     email: z
-        .email({ message: "Email is required" }),
+        .email({ message: "Email is required" }).or(literal('')),
 
     phone: z
         .string()
         .min(10, { message: "Phone number must be at least 10 digits" })
         .max(15, { message: "Phone number must be at most 15 digits" })
-        .regex(/^\+?\d+$/, { message: "Phone number must contain only digits" }),
+        .regex(/^\+?\d+$/, { message: "Phone number must contain only digits" }).or(literal('')),
 
     address: z
         .string()
