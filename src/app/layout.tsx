@@ -83,7 +83,7 @@ export default function RootLayout({
               operatingSystem: "Web",
               description:
                 "A system to manage library books, authors, and borrowers.",
-              url: "https://www.yourlibrarysite.com",
+              url: "https://www.brainpage.com",
             }),
           }}
         />
@@ -97,7 +97,14 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
-        <Toaster />
+        <Toaster
+          toastOptions={{
+            classNames: {
+              toast: "border !border-accent",
+              description: "!text-white",
+            },
+          }}
+        />
       </body>
     </html>
   );

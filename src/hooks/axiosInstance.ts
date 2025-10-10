@@ -1,3 +1,5 @@
+'use client';
+
 import axios from "axios";
 
 const baseURL = process.env.VITE_BACKEND_BASE_API;
@@ -41,6 +43,7 @@ axiosInstance.interceptors.response.use(
                 localStorage.setItem("accessToken", response.data.access);
                 originalRequest.headers["Authorization"] = `Bearer ${response.data.access}`;
                 return axiosInstance(originalRequest);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (error) {
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");

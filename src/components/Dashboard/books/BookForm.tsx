@@ -1,5 +1,7 @@
+"use client";
+
 import { Book } from "@/lib/utils";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,14 +18,20 @@ import { useForm } from "react-hook-form";
 import { bookSchema, BookSchema } from "@/lib/formValidation";
 import DatePicker from "@/components/Forms/DatePicker";
 import { toast } from "sonner";
+import axios from "axios";
 
 const BookForm = ({
   data,
   action,
+  setOpen,
 }: {
   data?: Book;
   action: "add" | "edit" | "delete";
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<BookSchema>({
     resolver: zodResolver(bookSchema),
     defaultValues: {
@@ -36,35 +44,158 @@ const BookForm = ({
     },
   });
 
-  const promise = new Promise<{ name: string }>((resolve) => {
-    setTimeout(() => {
-      resolve({ name: "My toast" });
-    }, 3000);
-  });
+  const onSubmit = async (values: BookSchema) => {
+    try {
+      setLoading(true);
 
-  function onSubmit(values: BookSchema) {
-    console.log(values);
+      const payload = {
+        title: values.title,
+        author: values.author,
+        isbn: values.isbn,
+        genre: values.genre,
+        language: values.language,
+        published_date: values.published_date.toISOString().split("T")[0],
+        total_copies: Number(values.total_copies),
+        ...(action === "add" && {
+          available_copies: Number(values.total_copies),
+        }),
+        status: true,
+      };
 
-    toast.promise(promise, {
-      loading: "Loading...",
-      success: (data: { name: string }) => {
-        return {
+      if ((action === "edit" || action === "delete") && !data?.id) {
+        throw new Error("No book ID provided for edit/delete");
+      }
+
+      const headers = { "Content-Type": "application/json" };
+
+      const promise =
+        action === "add"
+          ? axios.post("http://127.0.0.1:8000/api/v1/books/", payload, {
+              headers,
+            })
+          : action === "edit"
+          ? axios.put(
+              `http://127.0.0.1:8000/api/v1/books/${data?.id}/`,
+              payload,
+              { headers }
+            )
+          : axios.delete(`http://127.0.0.1:8000/api/v1/books/${data?.id}/`, {
+              headers,
+            });
+
+      toast.promise(promise, {
+        loading: "Processing...",
+        success: () => ({
           message: `Book Is ${action === "add" ? "Added" : "Updated"}`,
-          description: `The Book ${
-            action === "add" ? "Added" : "Updated"
-          } successfully`,
-        };
-      },
-      error: "Error",
-      style: {
-        background: "#803bf7",
-        border: "!bg-gray-200",
-      },
-    });
-  }
+          description: `The book was ${
+            action === "add" ? "added" : "updated"
+          } successfully.`,
+        }),
+        error: (error) => ({
+          message: "Error",
+          description:
+            error?.response?.data?.detail || "Failed to process your request.",
+        }),
+      });
+
+      const response = await promise;
+      setBooks(response?.data || []);
+      form.reset();
+      setOpen(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const data = error.response?.data;
+
+        if (data) {
+          if (data) {
+            const messages = Object.values(data).flat().join(" and ");
+            toast.error("Error", { description: messages });
+          }
+        } else {
+          toast.error("Error", { description: "Something went wrong." });
+        }
+      } else {
+        toast.error("Error", { description: "Something went wrong." });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onSubmitDelete = async () => {
+    try {
+      if (!data?.id) throw new Error("No book ID provided for delete");
+
+      setLoading(true);
+
+      const headers = { "Content-Type": "application/json" };
+
+      const promise = axios.delete(
+        `http://127.0.0.1:8000/api/v1/books/${data.id}/`,
+        { headers }
+      );
+
+      toast.promise(promise, {
+        loading: "Deleting...",
+        success: () => ({
+          message: "Book Deleted",
+          description: `The book "${data.title}" was deleted successfully.`,
+          classNames: {
+            toast: "bg-green-500 text-white",
+          },
+        }),
+        error: (error) => ({
+          message: "Error",
+          description:
+            error?.response?.data?.detail ||
+            "Failed to delete this book, Try Again.",
+        }),
+      });
+
+      const response = await promise;
+      setBooks(response?.data || []);
+      setOpen(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const data = error.response?.data;
+
+        if (data) {
+          const messages = Object.values(data).flat().join(" and ");
+          toast.error("Error", { description: messages });
+        } else {
+          toast.error("Error", { description: "Something went wrong." });
+        }
+      } else {
+        toast.error("Error", { description: "Something went wrong." });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return action === "delete" ? (
-    <div>Are you sure you want to delete this book {data?.title}</div>
+    <Card>
+      <div className="m-4 gap-4 mt-3 flex flex-col justify-between w-full items-center">
+        <p>Are you sure you want to delete {data?.title}?</p>
+        <div className="flex flex-row gap-1 justify-center w-2/4">
+          <Button
+            type="button"
+            className="w-full"
+            onClick={() => setOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="w-full"
+            variant="destructive"
+            onClick={onSubmitDelete}
+          >
+            Delete
+          </Button>
+        </div>
+      </div>
+    </Card>
   ) : (
     <Card>
       <CardContent className="my-1">

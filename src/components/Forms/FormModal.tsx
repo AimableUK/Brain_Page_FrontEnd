@@ -11,12 +11,15 @@ import { Book, LendReturn, Member } from "@/lib/utils";
 interface BookFormProps {
   data?: Book;
   action: "add" | "edit" | "delete";
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const BookForm = dynamic<BookFormProps>(
   () => import("../Dashboard/books/BookForm"),
   {
     loading: () => (
-      <span className="text-center py-4 text-gray-500">Loading form...</span>
+      <span className="flex items-center justify-center h-full w-full">
+        <div className="loader"></div>
+      </span>
     ),
   }
 );
@@ -29,7 +32,9 @@ const MemberForm = dynamic<MemberFormProps>(
   () => import("../Dashboard/members/MemberForm"),
   {
     loading: () => (
-      <span className="text-center py-4 text-gray-500">Loading form...</span>
+      <span className="flex items-center justify-center h-full w-full">
+        <div className="loader"></div>
+      </span>
     ),
   }
 );
@@ -42,7 +47,9 @@ const LendForm = dynamic<LendFormProps>(
   () => import("../Dashboard/lend-and-return/LendForm"),
   {
     loading: () => (
-      <span className="text-center py-4 text-gray-500">Loading form...</span>
+      <span className="flex items-center justify-center h-full w-full">
+        <div className="loader"></div>
+      </span>
     ),
   }
 );
@@ -55,7 +62,9 @@ const ReturnForm = dynamic<ReturnFormProps>(
   () => import("../Dashboard/lend-and-return/ReturnForm"),
   {
     loading: () => (
-      <span className="text-center py-4 text-gray-500">Loading form...</span>
+      <span className="flex items-center justify-center h-full w-full">
+        <div className="loader"></div>
+      </span>
     ),
   }
 );
@@ -84,7 +93,9 @@ const FormModal = <T extends Record<string, unknown>>({
   }) => {
     switch (type) {
       case "Book":
-        return <BookForm action={action} data={data as Book} />;
+        return (
+          <BookForm action={action} data={data as Book} setOpen={setOpen} />
+        );
       case "Member":
         return <MemberForm action={action} data={data as Member} />;
       case "Lend":
@@ -96,8 +107,12 @@ const FormModal = <T extends Record<string, unknown>>({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <div>
-        <DialogContent className="overflow-y-auto">
+      <div className="flex flex-col">
+        <DialogContent
+          className={` ${
+            action !== "delete" && "h-5/6 !rounded-r-none"
+          } overflow-y-auto p-3 md:p-5`}
+        >
           <DialogHeader>
             <DialogTitle>
               {type === "Lend"

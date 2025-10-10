@@ -60,6 +60,9 @@ type DataTableProps<T> = {
   filterableColumns?: (keyof T)[];
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  loading?: boolean;
+  fetchError?: string | null;
+  refetch?: () => Promise<void>;
 };
 
 export function DataTable<T extends Record<string, unknown>>({
@@ -69,6 +72,9 @@ export function DataTable<T extends Record<string, unknown>>({
   filterableColumns,
   open,
   setOpen,
+  loading,
+  fetchError,
+  refetch,
 }: DataTableProps<T>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -128,7 +134,7 @@ export function DataTable<T extends Record<string, unknown>>({
   });
 
   const step = 10;
-  const totalRows = data.length;
+  const totalRows = data?.length;
   const dynamicPageSizes: number[] = [];
 
   for (let size = step; size < totalRows; size += step) {
@@ -266,7 +272,18 @@ export function DataTable<T extends Record<string, unknown>>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {loading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="text-center py-2"
+                >
+                  <div className="flex items-center justify-center h-full w-full">
+                    <div className="loader"></div>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -282,6 +299,20 @@ export function DataTable<T extends Record<string, unknown>>({
                   ))}
                 </TableRow>
               ))
+            ) : fetchError ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center text-red-500 font-medium"
+                >
+                  <div className="flex items-center justify-center h-full w-full">
+                    {fetchError}
+                    <Button type="button" onClick={refetch}>
+                      Reload
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
             ) : (
               <TableRow>
                 <TableCell
