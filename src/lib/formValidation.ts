@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { z, ZodNumber } from "zod"
 
 export const loginSchema = z.object({
     identifier: z
@@ -91,14 +91,16 @@ export const bookSchema = z.object({
         .min(3, { message: "Genre must be at least 3 characters" })
         .max(15, { message: "Genre must be at most 15 characters" }),
 
-
     language: z
         .string()
         .min(3, { message: "Language must be at least 3 characters" })
         .max(15, { message: "Language must be at most 15 characters" }),
 
-    total_copies: z
-        .string({ message: "Please enter a valid number" })
+    total_copies: z.coerce
+        .number()
+        .refine((n) => !isNaN(n), {
+            message: "Please enter a valid number for total_copies",
+        }) as ZodNumber,
 
 })
 

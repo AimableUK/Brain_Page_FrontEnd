@@ -32,7 +32,11 @@ const BooksTable = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  type ModalData = { book: Book; action: "edit" | "delete" };
+  type ModalData = {
+    book: Book;
+    action: "edit" | "delete";
+    openBookId: number;
+  };
   const [modalData, setModalData] = useState<ModalData | null>(null);
   const [books, setBooks] = useState<Book[]>([]);
   const [fetchError, setFetchError] = useState(null);
@@ -200,14 +204,26 @@ const BooksTable = () => {
                   View details
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => setModalData({ book, action: "edit" })}
+                  onClick={() =>
+                    setModalData({
+                      book,
+                      action: "edit",
+                      openBookId: Number(book.id),
+                    })
+                  }
                 >
                   <FilePenLine />
                   Edit Book
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-red-500"
-                  onClick={() => setModalData({ book, action: "delete" })}
+                  onClick={() =>
+                    setModalData({
+                      book,
+                      action: "delete",
+                      openBookId: Number(book.id),
+                    })
+                  }
                 >
                   <Trash />
                   Delete Book
@@ -216,7 +232,7 @@ const BooksTable = () => {
             </DropdownMenu>
             <FormModal<Book>
               type="Book"
-              open={!!modalData}
+              open={!!modalData && modalData?.openBookId === Number(book.id)}
               setOpen={() => setModalData(null)}
               action={modalData?.action ?? "edit"}
               rowdata={modalData?.book}

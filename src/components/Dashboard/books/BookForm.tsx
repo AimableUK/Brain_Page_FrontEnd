@@ -39,8 +39,11 @@ const BookForm = ({
       author: data?.author || "",
       isbn: data?.isbn || "",
       genre: data?.genre || "",
+      published_date: data?.published_date
+        ? new Date(data.published_date)
+        : undefined,
       language: data?.language || "",
-      total_copies: data?.total_copies || "",
+      total_copies: data?.total_copies ? Number(data.total_copies) : undefined,
     },
   });
 
@@ -309,7 +312,7 @@ const BookForm = ({
             <FormField
               control={form.control}
               name="total_copies"
-              defaultValue={data?.total_copies || ""}
+              defaultValue={Number(data?.total_copies) || undefined}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Total Copies</FormLabel>
