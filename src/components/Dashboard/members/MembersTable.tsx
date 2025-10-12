@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
@@ -22,14 +21,24 @@ import {
 import { Member } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/Table/dataTable";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FormModal from "@/components/Forms/FormModal";
-import axios from "axios";
 import TimeAgo from "@/hooks/TimeAgo";
 
-const MembersTable = () => {
+type MembersProps = {
+  loading: boolean;
+  members: Member[];
+  fetchError: string | null;
+  fetchMembers: () => Promise<void>;
+};
+
+const MembersTable = ({
+  loading,
+  members,
+  fetchMembers,
+  fetchError,
+}: MembersProps) => {
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   type ModalData = {
     member: Member;
@@ -37,36 +46,6 @@ const MembersTable = () => {
     openMemberId: number;
   };
   const [modalData, setModalData] = useState<ModalData | null>(null);
-  const [members, setMembers] = useState<Member[]>([]);
-  const [fetchError, setFetchError] = useState(null);
-
-  const fetchMembers = async () => {
-    try {
-      setFetchError(null);
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/v1/members/",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      setMembers(response?.data || []);
-      setLoading(false);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setFetchError(
-          error.response?.data?.detail || "Failed to load members."
-        );
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchMembers();
-  }, []);
 
   const columns: ColumnDef<Member>[] = [
     {
@@ -238,6 +217,7 @@ const MembersTable = () => {
       },
     },
   ];
+
   return (
     <DataTable<Member>
       data={members}
@@ -248,7 +228,7 @@ const MembersTable = () => {
       setOpen={setOpen}
       loading={loading}
       fetchError={fetchError}
-      refetch={() => fetchMembers()}
+      refetch={fetchMembers}
     />
   );
 };

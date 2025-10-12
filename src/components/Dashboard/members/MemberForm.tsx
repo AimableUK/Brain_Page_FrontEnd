@@ -24,10 +24,12 @@ const MemberForm = ({
   data,
   action,
   setOpen,
+  refetch,
 }: {
   data?: Member;
   action: "add" | "edit" | "delete";
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch?: () => Promise<void>;
 }) => {
   const [books, setBooks] = useState<Member[]>([]);
   const [loading, setLoading] = useState(false);
@@ -89,8 +91,8 @@ const MemberForm = ({
         }),
       });
 
-      const response = await promise;
-      setBooks(response?.data || []);
+      await promise;
+      if (refetch) await refetch();
       form.reset();
       setOpen(false);
     } catch (error) {
@@ -140,8 +142,8 @@ const MemberForm = ({
         }),
       });
 
-      const response = await promise;
-      setBooks(response?.data || []);
+      await promise;
+      if (refetch) await refetch();
       setOpen(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {

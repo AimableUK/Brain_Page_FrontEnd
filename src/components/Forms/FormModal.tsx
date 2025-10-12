@@ -12,6 +12,7 @@ interface BookFormProps {
   data?: Book;
   action: "add" | "edit" | "delete";
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch: () => Promise<void>;
 }
 const BookForm = dynamic<BookFormProps>(
   () => import("../Dashboard/books/BookForm"),
@@ -28,6 +29,7 @@ interface MemberFormProps {
   data?: Member;
   action: "add" | "edit" | "delete";
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch: () => Promise<void>;
 }
 const MemberForm = dynamic<MemberFormProps>(
   () => import("../Dashboard/members/MemberForm"),
@@ -43,24 +45,11 @@ const MemberForm = dynamic<MemberFormProps>(
 interface LendFormProps {
   data?: LendReturn;
   action: "add" | "edit" | "delete";
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch: () => Promise<void>;
 }
 const LendForm = dynamic<LendFormProps>(
   () => import("../Dashboard/lend-and-return/LendForm"),
-  {
-    loading: () => (
-      <span className="flex items-center justify-center h-full w-full">
-        <div className="loader"></div>
-      </span>
-    ),
-  }
-);
-
-interface ReturnFormProps {
-  data?: LendReturn;
-  action: "add" | "edit" | "delete";
-}
-const ReturnForm = dynamic<ReturnFormProps>(
-  () => import("../Dashboard/lend-and-return/ReturnForm"),
   {
     loading: () => (
       <span className="flex items-center justify-center h-full w-full">
@@ -76,6 +65,7 @@ interface FormModalProps<T extends Record<string, unknown>> {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   action: "add" | "edit" | "delete";
   rowdata?: T;
+  refetch?: () => Promise<void>;
 }
 
 const FormModal = <T extends Record<string, unknown>>({
@@ -84,25 +74,45 @@ const FormModal = <T extends Record<string, unknown>>({
   setOpen,
   action,
   rowdata,
+  refetch,
 }: FormModalProps<T>) => {
   const MainForm = ({
     data,
     action,
+    refetch,
   }: {
     data?: Record<string, unknown>;
     action: "add" | "edit" | "delete";
+    refetch?: () => Promise<void>;
   }) => {
     switch (type) {
       case "Book":
         return (
-          <BookForm action={action} data={data as Book} setOpen={setOpen} />
+          <BookForm
+            action={action}
+            data={data as Book}
+            setOpen={setOpen}
+            refetch={refetch!}
+          />
         );
       case "Member":
-        return <MemberForm action={action} data={data as Member} setOpen={setOpen} />;
-      case "Lend":
-        return <LendForm action={action} data={data as LendReturn} />;
+        return (
+          <MemberForm
+            action={action}
+            data={data as Member}
+            setOpen={setOpen}
+            refetch={refetch!}
+          />
+        );
       default:
-        return <ReturnForm action={action} data={data as LendReturn} />;
+        return (
+          <LendForm
+            action={action}
+            data={data as LendReturn}
+            setOpen={setOpen}
+            refetch={refetch!}
+          />
+        );
     }
   };
 
@@ -139,19 +149,19 @@ const FormModal = <T extends Record<string, unknown>>({
 
           {action === "delete" && type !== "LendReturn" && (
             <div>
-              <MainForm action="delete" data={rowdata} />
+              <MainForm action="delete" data={rowdata} refetch={refetch} />
             </div>
           )}
 
           {action === "edit" && type !== "LendReturn" && (
             <div>
-              <MainForm action="edit" data={rowdata} />
+              <MainForm action="edit" data={rowdata} refetch={refetch} />
             </div>
           )}
 
           {action === "add" && (
             <div>
-              <MainForm action="add" data={rowdata} />
+              <MainForm action="add" data={rowdata} refetch={refetch} />
             </div>
           )}
         </DialogContent>

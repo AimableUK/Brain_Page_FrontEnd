@@ -28,12 +28,14 @@ const DatePicker = ({
   title,
   helperText,
   defaultValue,
+  type,
 }: {
   value?: Date;
   onChange?: (date: Date | undefined) => void;
   title?: string;
   helperText: string;
   defaultValue?: string;
+  type?: string;
 }) => {
   const [open, setOpen] = React.useState(false);
   const [textValue, setTextValue] = React.useState(
@@ -104,9 +106,18 @@ const DatePicker = ({
                 onChange?.(date as Date);
                 setOpen(false);
               }}
-              disabled={(date) =>
-                date > new Date() || date < new Date("1900-01-01")
-              }
+              disabled={(date) => {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                const minDate = new Date("1900-01-01");
+
+                if (type === "Lend") {
+                  return date < today || date < minDate;
+                } else {
+                  return date > today;
+                }
+              }}
             />
           </PopoverContent>
         </Popover>

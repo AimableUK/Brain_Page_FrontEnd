@@ -76,7 +76,9 @@ export function DataTable<T extends Record<string, unknown>>({
   fetchError,
   refetch,
 }: DataTableProps<T>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([
+    { id: "lent_date", desc: true },
+  ]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
@@ -199,14 +201,14 @@ export function DataTable<T extends Record<string, unknown>>({
           </Button>
           {type === "LendReturn" ? (
             <>
-              <Button
+              {/* <Button
                 variant="secondary"
                 className="border hover:border-accent active:scale-95 transition-all duration-150 ease-in-out"
                 onClick={() => handleLendReturn("Return")}
               >
                 <Plus strokeWidth={2.4} />
                 Return book
-              </Button>
+              </Button> */}
               <Button
                 className="bg-accent text-gray-50 hover:text-accent active:scale-95 transition-all duration-150 ease-in-out"
                 onClick={() => handleLendReturn("Lend")}
@@ -221,6 +223,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   open={open}
                   setOpen={setOpen}
                   action="add"
+                  refetch={refetch}
                 />
               ) : (
                 <FormModal<LendReturn>
@@ -228,6 +231,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   open={open}
                   setOpen={setOpen}
                   action="add"
+                  refetch={refetch}
                 />
               )}
             </>
@@ -246,6 +250,7 @@ export function DataTable<T extends Record<string, unknown>>({
                 open={open}
                 setOpen={setOpen}
                 action="add"
+                refetch={refetch}
               />
             </>
           )}
@@ -305,7 +310,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   colSpan={columns.length}
                   className="h-24 text-center text-red-500 font-medium"
                 >
-                  <div className="flex items-center justify-center h-full w-full">
+                  <div className="flex flex-col items-center justify-center h-full w-full">
                     {fetchError}
                     <Button type="button" onClick={refetch}>
                       Reload
@@ -319,7 +324,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No records found.
                 </TableCell>
               </TableRow>
             )}

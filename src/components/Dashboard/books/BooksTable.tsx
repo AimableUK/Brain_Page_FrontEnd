@@ -23,14 +23,23 @@ import {
 import { Book } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/Table/dataTable";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FormModal from "@/components/Forms/FormModal";
-// import axiosInstance from "@/hooks/axiosInstance";
-import axios from "axios";
 
-const BooksTable = () => {
+type BooksProps = {
+  loading: boolean;
+  books: Book[];
+  fetchError: string | null;
+  fetchBooks: () => Promise<void>;
+};
+
+const BooksTable = ({
+  loading,
+  books,
+  fetchBooks,
+  fetchError,
+}: BooksProps) => {
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   type ModalData = {
     book: Book;
@@ -38,31 +47,6 @@ const BooksTable = () => {
     openBookId: number;
   };
   const [modalData, setModalData] = useState<ModalData | null>(null);
-  const [books, setBooks] = useState<Book[]>([]);
-  const [fetchError, setFetchError] = useState(null);
-
-  const fetchBooks = async () => {
-    try {
-      setFetchError(null);
-      const response = await axios.get("http://127.0.0.1:8000/api/v1/books/", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setBooks(response?.data || []);
-      setLoading(false);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setFetchError(error.response?.data?.detail || "Failed to load books.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchBooks();
-  }, []);
 
   const columns: ColumnDef<Book>[] = [
     {
@@ -259,7 +243,7 @@ const BooksTable = () => {
       setOpen={setOpen}
       loading={loading}
       fetchError={fetchError}
-      refetch={() => fetchBooks()}
+      refetch={fetchBooks}
     />
   );
 };

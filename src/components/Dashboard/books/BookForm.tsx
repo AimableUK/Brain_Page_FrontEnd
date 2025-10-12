@@ -2,7 +2,7 @@
 "use client";
 
 import { Book } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -25,12 +25,13 @@ const BookForm = ({
   data,
   action,
   setOpen,
+  refetch,
 }: {
   data?: Book;
   action: "add" | "edit" | "delete";
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch?: () => Promise<void>;
 }) => {
-  const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
 
   const form = useForm<BookSchema>({
@@ -102,8 +103,8 @@ const BookForm = ({
         }),
       });
 
-      const response = await promise;
-      setBooks(response?.data || []);
+      await promise;
+      if (refetch) await refetch();
       form.reset();
       setOpen(false);
     } catch (error) {
@@ -156,8 +157,8 @@ const BookForm = ({
         }),
       });
 
-      const response = await promise;
-      setBooks(response?.data || []);
+      await promise;
+      if (refetch) await refetch();
       setOpen(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {

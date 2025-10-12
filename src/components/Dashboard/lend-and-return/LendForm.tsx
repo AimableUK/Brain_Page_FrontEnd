@@ -1,7 +1,8 @@
-'use client';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
 
-import { books, LendReturn, members } from "@/lib/utils";
-import React from "react";
+import { Book, LendReturn, Member } from "@/lib/utils";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -26,41 +27,124 @@ import {
 } from "@/components/ui/select";
 import DatePicker from "@/components/Forms/DatePicker";
 import { toast } from "sonner";
+import axios from "axios";
 
-const LendForm = ({ data }: { data?: LendReturn }) => {
+const LendForm = ({
+  data,
+  setOpen,
+  refetch,
+}: {
+  data?: LendReturn;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch?: () => Promise<void>;
+}) => {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
   const form = useForm<LendSchema>({
     resolver: zodResolver(lendSchema),
     defaultValues: {
-      book: data?.book_title || "",
-      member: data?.member_name || "",
-      return_date: data?.return_date,
+      book: Number(data?.book_id) || undefined,
+      member: Number(data?.member_id) || undefined,
+      return_date: data?.return_date ? new Date(data.return_date) : undefined,
     },
   });
 
-  const promise = new Promise<{ name: string }>((resolve) => {
-    setTimeout(() => {
-      resolve({ name: "My toast" });
-    }, 3000);
-  });
+  const fetchBooksMembers = async () => {
+    try {
+      setFetchError(null);
+      setLoading(true);
 
-  function onSubmit(values: LendSchema) {
-    console.log(values);
+      const booksList = "http://127.0.0.1:8000/api/v1/books/";
+      const membersList = "http://127.0.0.1:8000/api/v1/members/";
+      const headers = { "Content-Type": "application/json" };
 
-    toast.promise(promise, {
-      loading: "Loading...",
-      success: (data: { name: string }) => {
-        return {
-          message: `Book Lended`,
-          description: `The Book is Lended successfully`,
-        };
-      },
-      error: "Error",
-      style: {
-        background: "#803bf7",
-        border: "!bg-gray-200",
-      },
-    });
-  }
+      const promise = Promise.all([
+        axios.get(booksList, { headers }),
+        axios.get(membersList, { headers }),
+      ]);
+
+      const [booksResponse, membersResponse] = await promise;
+
+      setBooks(booksResponse.data || []);
+      setMembers(membersResponse.data.members || []);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setFetchError(
+          error.response?.data?.detail || "Failed to load. Try Again."
+        );
+      } else {
+        setFetchError("Unexpected error occurred.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!books.length || !members.length) {
+      fetchBooksMembers();
+    }
+  }, [books.length, members.length]);
+
+  const onSubmit = async (values: LendSchema) => {
+    try {
+      setLoading(true);
+
+      const headers = { "Content-Type": "application/json" };
+
+      const payload = {
+        book_id: values.book,
+        member_id: values.member,
+        return_date: values.return_date.toISOString().split("T")[0],
+      };
+
+      const promise = axios.post(
+        "http://127.0.0.1:8000/api/v1/lends/",
+        payload,
+        {
+          headers,
+        }
+      );
+
+      toast.promise(promise, {
+        loading: "Processing...",
+        success: () => ({
+          message: `Book Lent.`,
+          description: `The Book is lent Successfully!!`,
+        }),
+        error: (error) => ({
+          message: "Error",
+          description:
+            error?.response?.data?.detail || "Failed to process your request.",
+        }),
+      });
+
+      await promise;
+      if (refetch) await refetch();
+      form.reset();
+      setOpen(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const data = error.response?.data;
+
+        if (data) {
+          if (data) {
+            const messages = Object.values(data).flat().join(" and ");
+            toast.error("Error", { description: messages });
+          }
+        } else {
+          toast.error("Error", { description: "Something went wrong." });
+        }
+      } else {
+        toast.error("Error", { description: "Something went wrong." });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Card>
@@ -79,18 +163,23 @@ const LendForm = ({ data }: { data?: LendReturn }) => {
                   <FormLabel>Select Book</FormLabel>
                   <FormControl>
                     <Select
-                      onValueChange={field.onChange}
-                      value={field.value || ""}
-                      defaultValue={field.value || ""}
+                      onValueChange={(value) => field.onChange(Number(value))}
+                      value={field.value?.toString() || ""}
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a book" />
+                        <SelectValue placeholder="Select a book">
+                          {books.find((b) => b.id === field.value?.toString())
+                            ?.title ?? undefined}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Books</SelectLabel>
                           {books.map((book) => (
-                            <SelectItem key={book.id} value={book.title}>
+                            <SelectItem
+                              key={book.id}
+                              value={book.id.toString()}
+                            >
                               {book.title}
                             </SelectItem>
                           ))}
@@ -112,12 +201,14 @@ const LendForm = ({ data }: { data?: LendReturn }) => {
                   <FormLabel>Select Member</FormLabel>
                   <FormControl>
                     <Select
-                      onValueChange={field.onChange}
-                      value={field.value || ""}
-                      defaultValue={field.value || ""}
+                      onValueChange={(value) => field.onChange(Number(value))}
+                      value={field.value?.toString() || ""}
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select member" />
+                        <SelectValue placeholder="Select a member">
+                          {members.find((m) => m.id === field.value?.toString())
+                            ?.full_name ?? undefined}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
@@ -125,7 +216,7 @@ const LendForm = ({ data }: { data?: LendReturn }) => {
                           {members.map((member) => (
                             <SelectItem
                               key={member.id}
-                              value={member.full_name}
+                              value={member.id.toString()}
                             >
                               {member.full_name}
                             </SelectItem>
@@ -154,6 +245,7 @@ const LendForm = ({ data }: { data?: LendReturn }) => {
                       title="Return Date"
                       helperText="Return On"
                       defaultValue={data?.return_date}
+                      type="Lend"
                     />
                   </FormControl>
                   <FormMessage />

@@ -84,7 +84,7 @@ export const bookSchema = z.object({
         .min(10, { message: "ISBN must be 10 characters (Only for Books published before dec, 2006)" })
         .max(13, { message: "ISBN must be at most 13 digits (Only for Books published after dec, 2006)" }),
 
-    published_date: z.date({ message: "date is required" }),
+    published_date: z.date({ message: "published date is required" }),
 
     genre: z
         .string()
@@ -115,10 +115,10 @@ export type ReturnSchema = z.infer<typeof returnSchema>
 
 
 export const lendSchema = z.object({
-    member: z.string().min(1, "Member is required"),
-    book: z.string().min(1, "Book is required"),
+    member: z.number({ message: "Member is required" }),
+    book: z.number({ message: "Book is required" }),
     lent_date: z.string().optional(),
-    return_date: z.string().min(1, "Return date is required"),
+    return_date: z.date({ message: "Return date is required" }),
 });
 
 
