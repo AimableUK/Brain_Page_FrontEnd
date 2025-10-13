@@ -6,6 +6,8 @@ import { SectionCards } from "./section-cards";
 import MembersTable from "./MembersTable";
 import { Member } from "@/lib/utils";
 import axios from "axios";
+import axiosInstance from "@/hooks/axiosInstance";
+import useAuthGuard from "@/hooks/useAuthGuard";
 
 interface MembersResponse {
   members: Member[];
@@ -18,6 +20,7 @@ interface MembersResponse {
 }
 
 const TabMembers = () => {
+  useAuthGuard();
   const [loading, setLoading] = useState(true);
   const [members, setMembers] = useState<Member[]>([]);
   const [fetchError, setFetchError] = useState<string | null>(null);
@@ -34,10 +37,7 @@ const TabMembers = () => {
       setFetchError(null);
       setLoading(true);
 
-      const response = await axios.get<MembersResponse>(
-        "http://127.0.0.1:8000/api/v1/members/",
-        { headers: { "Content-Type": "application/json" } }
-      );
+      const response = await axiosInstance.get<MembersResponse>("members/");
 
       setMembers(response.data.members || []);
       setStats(
@@ -63,6 +63,12 @@ const TabMembers = () => {
 
   useEffect(() => {
     fetchMembers();
+
+    const interval = setInterval(() => {
+      fetchMembers();
+    }, 60 * 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (

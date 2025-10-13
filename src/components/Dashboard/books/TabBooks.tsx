@@ -6,8 +6,11 @@ import { useEffect, useState } from "react";
 import { Book } from "@/lib/utils";
 import axios from "axios";
 import BooksTable from "./BooksTable";
+import axiosInstance from "@/hooks/axiosInstance";
+import useAuthGuard from "@/hooks/useAuthGuard";
 
 const TabBooks = () => {
+  useAuthGuard();
   const [loading, setLoading] = useState(true);
   const [books, setBooks] = useState<Book[]>([]);
   const [fetchError, setFetchError] = useState<string | null>(null);
@@ -15,12 +18,19 @@ const TabBooks = () => {
   const fetchBooks = async () => {
     try {
       setFetchError(null);
-      const response = await axios.get("http://127.0.0.1:8000/api/v1/books/", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setBooks(response?.data || []);
+      const response = await axiosInstance.get("books/");
+      console.log("Fetching books from:", process.env.NEXT_PUBLIC_BACKEND_API);
+
+      if (Array.isArray(response.data)) {
+        setBooks(response?.data || []);
+      } else {
+        setBooks([]);
+        setFetchError(
+          typeof response.data.detail === "string"
+            ? response.data.detail
+            : "Failed to load books."
+        );
+      }
       setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -35,6 +45,12 @@ const TabBooks = () => {
 
   useEffect(() => {
     fetchBooks();
+
+    const interval = setInterval(() => {
+      fetchBooks();
+    }, 60 * 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const totalBooks = books.reduce(

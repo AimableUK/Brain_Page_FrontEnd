@@ -26,7 +26,7 @@ const Footer = () => {
       <p className="font-normal flex flex-row items-center ">
         Made with&nbsp;
         <FaHeart className="size-4 text-accent" />
-        &nbsp;by&nbsp;<b>Malos Technologies</b>
+        &nbsp;by&nbsp;<b>Aimable UKOBIZABA</b>
       </p>
     </footer>
   );

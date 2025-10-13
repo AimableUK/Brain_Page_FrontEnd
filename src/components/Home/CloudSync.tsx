@@ -9,7 +9,10 @@ const CloudSync = () => {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           <div>
-            <Preview className="card bg-secondary rounded-r-md p-2 border border-gray-600 text-center md:-ml-4 lg:-ml-0" />
+            <Preview
+              pic="/dash2.png"
+              className="card bg-secondary rounded-r-md p-2 border border-gray-600 text-center md:-ml-4 lg:-ml-0"
+            />
           </div>
 
           <div className="lg:pt-4 lg:pr-8">

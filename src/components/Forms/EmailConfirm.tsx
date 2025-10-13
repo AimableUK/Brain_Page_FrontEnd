@@ -1,5 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 type Status = "loading" | "success" | "error";
@@ -7,6 +16,7 @@ type Status = "loading" | "success" | "error";
 export default function EmailConfirm() {
   const [status, setStatus] = useState<Status>("loading");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -24,9 +34,10 @@ export default function EmailConfirm() {
           "http://127.0.0.1:8000/dj-rest-auth/registration/verify-email/",
           { key }
         );
-        // success should be HTTP 200
+
         console.log("verify res:", res.data);
         setStatus("success");
+        router.push("sign-in");
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         console.error("verify error", err?.response ?? err);
@@ -40,26 +51,31 @@ export default function EmailConfirm() {
     };
 
     verify();
-  }, []);
+  }, [router]);
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      {status === "loading" && <p>Verifying your email...</p>}
-      {status === "success" && (
-        <p className="text-green-600">
-          ✅ Email confirmed successfully! You can now log in.
-        </p>
-      )}
-      {status === "error" && (
-        <>
-          <p className="text-red-600">
-             Invalid or expired confirmation link.
-          </p>
-          {errorMessage && (
-            <pre className="mt-4 p-2 bg-gray-100 text-sm">{errorMessage}</pre>
+    <div className="flex flex-col items-center justify-center w-fit">
+      <Card>
+        <CardHeader className="text-center">
+          <CardTitle>Email Verification</CardTitle>
+          <CardDescription>Verify your Email Address</CardDescription>
+        </CardHeader>
+        <CardContent className="w-full">
+          {status === "loading" && <p>Verifying your email...</p>}
+          {status === "success" && (
+            <p className="text-green-600 font-semibold">
+              Email confirmed successfully! You can now log in.
+            </p>
           )}
-        </>
-      )}
+          {status === "error" && (
+            <>
+              <p className="text-red-500 font-semibold">
+                Invalid or expired confirmation link.
+              </p>
+            </>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

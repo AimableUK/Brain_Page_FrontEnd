@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -22,9 +23,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "../ui/input";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import { AuthContext } from "@/hooks/AuthProvider";
+import { useRouter } from "next/navigation";
 
 export function SignUpForm({
   className,
@@ -34,6 +37,12 @@ export function SignUpForm({
     resolver: zodResolver(signUpSchema),
   });
   const [loading, setLoading] = useState(false);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoggedIn) router.push("/dashboard/overview");
+  }, [isLoggedIn, router]);
 
   const onSubmit = async (values: SignUpSchema) => {
     try {
@@ -68,6 +77,7 @@ export function SignUpForm({
             error?.response?.data?.detail || "Failed to process your request.",
         }),
       });
+
       form.reset();
     } catch (error) {
       if (axios.isAxiosError(error)) {

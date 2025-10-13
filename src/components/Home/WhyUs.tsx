@@ -56,7 +56,10 @@ const WhyUs = () => {
             </div>
           </div>
 
-          <Preview className="card bg-secondary rounded-l-md p-2 border border-gray-600 text-center md:-ml-4 lg:-ml-0" />
+          <Preview
+            pic="/dash1.png"
+            className="card bg-secondary rounded-l-md p-2 border border-gray-600 text-center md:-ml-4 lg:-ml-0"
+          />
         </div>
       </div>
     </div>

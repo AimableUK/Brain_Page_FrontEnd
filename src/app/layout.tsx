@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { Urbanist } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+// import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -89,22 +90,26 @@ export default function RootLayout({
         />
       </Head>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          // disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-        <Toaster
-          toastOptions={{
-            classNames: {
-              toast: "border !border-accent",
-              description: "!text-white",
-            },
-          }}
-        />
+        {/* <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
+        > */}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            // disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+          <Toaster
+            toastOptions={{
+              classNames: {
+                toast: "border !border-accent",
+                description: "!text-white",
+              },
+            }}
+          />
+        {/* </GoogleOAuthProvider> */}
       </body>
     </html>
   );

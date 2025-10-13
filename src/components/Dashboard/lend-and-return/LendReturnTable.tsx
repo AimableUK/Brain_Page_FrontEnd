@@ -24,6 +24,7 @@ import { DataTable } from "@/components/Table/dataTable";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import axiosInstance from "@/hooks/axiosInstance";
 
 type LendReturnProps = {
   loading: boolean;
@@ -48,12 +49,7 @@ const LendReturnTable = ({
 
       setLoading(true);
 
-      const headers = { "Content-Type": "application/json" };
-
-      const promise = axios.post(
-        `http://127.0.0.1:8000/api/v1/return/${data.id}/`,
-        { headers }
-      );
+      const promise = axiosInstance.post(`return/${data.id}/`);
 
       toast.promise(promise, {
         loading: "Processing...",

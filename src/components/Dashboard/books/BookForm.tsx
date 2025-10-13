@@ -20,6 +20,7 @@ import { bookSchema, BookSchema } from "@/lib/formValidation";
 import DatePicker from "@/components/Forms/DatePicker";
 import { toast } from "sonner";
 import axios from "axios";
+import axiosInstance from "@/hooks/axiosInstance";
 
 const BookForm = ({
   data,
@@ -71,22 +72,10 @@ const BookForm = ({
         throw new Error("No book ID provided for edit/delete");
       }
 
-      const headers = { "Content-Type": "application/json" };
-
       const promise =
         action === "add"
-          ? axios.post("http://127.0.0.1:8000/api/v1/books/", payload, {
-              headers,
-            })
-          : action === "edit"
-          ? axios.put(
-              `http://127.0.0.1:8000/api/v1/books/${data?.id}/`,
-              payload,
-              { headers }
-            )
-          : axios.delete(`http://127.0.0.1:8000/api/v1/books/${data?.id}/`, {
-              headers,
-            });
+          ? axiosInstance.post("books/", payload)
+          : axiosInstance.put(`books/${data?.id}/`, payload);
 
       toast.promise(promise, {
         loading: "Processing...",
@@ -133,12 +122,7 @@ const BookForm = ({
 
       setLoading(true);
 
-      const headers = { "Content-Type": "application/json" };
-
-      const promise = axios.delete(
-        `http://127.0.0.1:8000/api/v1/books/${data.id}/`,
-        { headers }
-      );
+      const promise = axiosInstance.delete(`books/${data.id}/`);
 
       toast.promise(promise, {
         loading: "Deleting...",

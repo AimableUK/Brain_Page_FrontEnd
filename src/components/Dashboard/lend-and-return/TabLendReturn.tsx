@@ -5,9 +5,11 @@ import LendReturnTable from "./LendReturnTable";
 import { SectionCards } from "./section-cards";
 import { useEffect, useState } from "react";
 import { LendReturn } from "@/lib/utils";
-import axios from "axios";
+import axiosInstance from "@/hooks/axiosInstance";
+import useAuthGuard from "@/hooks/useAuthGuard";
 
 const TabLendReturn = () => {
+  useAuthGuard();
   const [loading, setLoading] = useState(true);
   const [lendings, setLendings] = useState<LendReturn[]>([]);
   const [fetchError, setFetchError] = useState<string | null>(null);
@@ -15,9 +17,7 @@ const TabLendReturn = () => {
   const fetchLendings = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://127.0.0.1:8000/api/v1/lends/", {
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await axiosInstance.get("lends/");
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mappedData = response.data.map((lend: any) => ({
@@ -43,6 +43,12 @@ const TabLendReturn = () => {
 
   useEffect(() => {
     fetchLendings();
+
+    const interval = setInterval(() => {
+      fetchLendings();
+    }, 60 * 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const totalLendings = lendings.length;

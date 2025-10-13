@@ -19,7 +19,12 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
     }
   }, [router]);
 
-  if (isLoggedIn === null) return <div>Loading...</div>;
+  if (isLoggedIn === null)
+    return (
+      <div className="flex items-center justify-center w-full h-screen">
+        <div className="loader2"></div>
+      </div>
+    );
 
   return <>{children}</>;
 }

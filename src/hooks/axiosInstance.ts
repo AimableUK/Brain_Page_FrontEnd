@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-const baseURL = process.env.VITE_BACKEND_BASE_API;
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_API;
 const axiosInstance = axios.create({
     baseURL: baseURL,
     headers: {
@@ -36,6 +36,12 @@ axiosInstance.interceptors.response.use(
             originalRequest.retry = true;
             const refreshToken = localStorage.getItem("refreshToken");
 
+            if (!refreshToken) {
+                window.location.href = "/sign-in";
+
+                return Promise.reject(error);
+            }
+
             try {
                 const response = await axiosInstance.post("/token/refresh/", {
                     refresh: refreshToken,
@@ -47,6 +53,7 @@ axiosInstance.interceptors.response.use(
             } catch (error) {
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");
+                window.location.href = "/sign-in";
             }
         }
         return Promise.reject(error);

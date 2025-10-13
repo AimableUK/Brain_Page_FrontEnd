@@ -94,13 +94,13 @@ export function NavUser({
               </DropdownMenuItem>
               <DropdownMenuItem
                 className={
-                  pathName === "/dashboard/sign-out"
+                  pathName === "/sign-out"
                     ? "bg-secondary border border-accent"
                     : "border border-background"
                 }
               >
                 <Link
-                  href="/dashboard/sign-out"
+                  href="/sign-out"
                   className="flex flex-row items-center gap-x-1 w-full"
                 >
                   <LogOutIcon strokeWidth={1.7} size={21} />

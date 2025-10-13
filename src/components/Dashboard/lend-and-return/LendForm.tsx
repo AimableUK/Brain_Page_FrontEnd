@@ -28,6 +28,7 @@ import {
 import DatePicker from "@/components/Forms/DatePicker";
 import { toast } from "sonner";
 import axios from "axios";
+import axiosInstance from "@/hooks/axiosInstance";
 
 const LendForm = ({
   data,
@@ -57,13 +58,12 @@ const LendForm = ({
       setFetchError(null);
       setLoading(true);
 
-      const booksList = "http://127.0.0.1:8000/api/v1/books/";
-      const membersList = "http://127.0.0.1:8000/api/v1/members/";
-      const headers = { "Content-Type": "application/json" };
+      const booksList = "books/";
+      const membersList = "members/";
 
       const promise = Promise.all([
-        axios.get(booksList, { headers }),
-        axios.get(membersList, { headers }),
+        axiosInstance.get(booksList),
+        axiosInstance.get(membersList),
       ]);
 
       const [booksResponse, membersResponse] = await promise;
@@ -93,21 +93,13 @@ const LendForm = ({
     try {
       setLoading(true);
 
-      const headers = { "Content-Type": "application/json" };
-
       const payload = {
         book_id: values.book,
         member_id: values.member,
         return_date: values.return_date.toISOString().split("T")[0],
       };
 
-      const promise = axios.post(
-        "http://127.0.0.1:8000/api/v1/lends/",
-        payload,
-        {
-          headers,
-        }
-      );
+      const promise = axiosInstance.post("lends/", payload);
 
       toast.promise(promise, {
         loading: "Processing...",

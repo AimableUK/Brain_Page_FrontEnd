@@ -19,6 +19,7 @@ import { memberSchema, MemberSchema } from "@/lib/formValidation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import axios from "axios";
+import axiosInstance from "@/hooks/axiosInstance";
 
 const MemberForm = ({
   data,
@@ -59,22 +60,10 @@ const MemberForm = ({
         throw new Error("No member ID provided for edit/delete");
       }
 
-      const headers = { "Content-Type": "application/json" };
-
       const promise =
         action === "add"
-          ? axios.post("http://127.0.0.1:8000/api/v1/members/", payload, {
-              headers,
-            })
-          : action === "edit"
-          ? axios.put(
-              `http://127.0.0.1:8000/api/v1/members/${data?.id}/`,
-              payload,
-              { headers }
-            )
-          : axios.delete(`http://127.0.0.1:8000/api/v1/members/${data?.id}/`, {
-              headers,
-            });
+          ? axiosInstance.post("members/", payload)
+          : axiosInstance.put(`members/${data?.id}/`, payload);
 
       toast.promise(promise, {
         loading: "Processing...",
@@ -121,12 +110,7 @@ const MemberForm = ({
 
       setLoading(true);
 
-      const headers = { "Content-Type": "application/json" };
-
-      const promise = axios.delete(
-        `http://127.0.0.1:8000/api/v1/members/${data.id}/`,
-        { headers }
-      );
+      const promise = axiosInstance.delete(`members/${data.id}/`);
 
       toast.promise(promise, {
         loading: "Deleting...",
@@ -142,7 +126,6 @@ const MemberForm = ({
         }),
       });
 
-      await promise;
       if (refetch) await refetch();
       setOpen(false);
     } catch (error) {

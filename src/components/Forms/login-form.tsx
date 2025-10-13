@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -22,11 +23,12 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginSchema } from "@/lib/formValidation";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { AuthContext } from "@/hooks/AuthProvider";
-import { useRouter } from "next/navigation"; // or "next/router" if pages router
+import { useRouter } from "next/navigation";
+// import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
 export function LoginForm({
   className,
@@ -38,6 +40,10 @@ export function LoginForm({
   const [loading, setLoading] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const router = useRouter();
+
+  useEffect(() => {
+    if (isLoggedIn) router.push("/dashboard/overview");
+  }, [isLoggedIn, router]);
 
   const onSubmit = async (values: LoginSchema) => {
     try {
@@ -82,6 +88,42 @@ export function LoginForm({
     }
   };
 
+  // const handleGoogleLogin = async (credentialResponse: CredentialResponse) => {
+  //   if (!credentialResponse.credential) {
+  //     console.error("No credential received from Google");
+  //     return;
+  //   }
+  //   try {
+  //     const baseURL = process.env.NEXT_PUBLIC_BACKEND_API;
+  //     const res = await fetch(`${baseURL}google/`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         access_token: credentialResponse.credential,
+  //       }),
+  //     });
+
+  //     if (!res.ok) {
+  //       const errorData = await res.json();
+  //       console.error("Backend error:", errorData);
+  //       return;
+  //     }
+
+  //     const data = await res.json();
+  //     console.log("JWT tokens from backend:", data);
+
+  //     localStorage.setItem("access_token", data.access_token);
+  //     localStorage.setItem("refresh_token", data.refresh_token);
+
+  //     // optionally redirect
+  //     // router.push("/dashboard");
+  //   } catch (err) {
+  //     console.error("Google login error:", err);
+  //   }
+  // };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -90,6 +132,10 @@ export function LoginForm({
           <CardDescription>
             Enter your email or username below to login to your account
           </CardDescription>
+          {/* <GoogleLogin
+            onSuccess={handleGoogleLogin}
+            onError={() => console.log("Google login failed")}
+          /> */}
         </CardHeader>
         <CardContent>
           <Form {...form}>
