@@ -21,6 +21,11 @@ export const metadata = {
     description:
       "Create a Brain Page account to access and manage books, lending, returns, and user activity.",
   },
+  emailConfirm: {
+    title: "Confirm Email - Brain Page",
+    description:
+      "Confirm your email to activate your Brain Page Account",
+  },
   signOut: {
     title: "Sign Out - Brain Page",
     description:

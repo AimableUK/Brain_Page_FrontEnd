@@ -1,16 +1,11 @@
 import { literal, z, ZodNumber } from "zod"
 
 export const loginSchema = z.object({
-    identifier: z
-        .string()
-        .min(2, { message: "Must be at least 2 characters" })
-        .refine(
-            (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || /^[a-zA-Z0-9_]+$/.test(val),
-            { message: "Must be a valid username or email" }
-        ),
+    username: z
+        .string({ message: "Username required" }),
+
     password: z
-        .string().
-        min(8, { message: "Password must be at least 8 characters" }),
+        .string({ message: "Password required" }),
 });
 
 export type LoginSchema = z.infer<typeof loginSchema>
@@ -22,23 +17,19 @@ export const signUpSchema = z.object({
         .min(2, { message: "Username must be at least 2 characters" })
         .max(50, { message: "Username must be at most 50 characters" }),
 
-    full_name: z
-        .string()
-        .min(4, { message: "Name must be at least 4 characters" })
-        .max(60, { message: "Name must be at most 60 characters" }),
-
     email: z
         .email({ message: "Invalid email address" }),
 
-    phone: z
-        .string()
-        .min(10, { message: "Phone number must be at least 10 digits" })
-        .max(15, { message: "Phone number must be at most 15 digits" })
-        .regex(/^\d+$/, { message: "Phone number must contain only digits" }),
-
-    password: z
+    password1: z
         .string()
         .min(8, { message: "Password must be at least 8 characters" }),
+
+    password2: z
+        .string()
+        .min(8, { message: "Password must be at least 8 characters" }),
+}).refine((data) => data.password1 === data.password2, {
+    message: "Passwords must match",
+    path: ["password2"],
 });
 
 export type SignUpSchema = z.infer<typeof signUpSchema>

@@ -22,6 +22,11 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginSchema } from "@/lib/formValidation";
+import { useContext, useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
+import { AuthContext } from "@/hooks/AuthProvider";
+import { useRouter } from "next/navigation"; // or "next/router" if pages router
 
 export function LoginForm({
   className,
@@ -30,10 +35,52 @@ export function LoginForm({
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
+  const [loading, setLoading] = useState(false);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const router = useRouter();
 
-  function onSubmit(values: LoginSchema) {
-    console.log(values);
-  }
+  const onSubmit = async (values: LoginSchema) => {
+    try {
+      setLoading(true);
+
+      const payload = {
+        username: values.username,
+        password: values.password,
+      };
+
+      const headers = { "Content-Type": "application/json" };
+
+      const loginPromise = axios.post(
+        "http://127.0.0.1:8000/api/v1/token/",
+        payload,
+        { headers }
+      );
+
+      toast.promise(loginPromise, {
+        loading: "Logging In...",
+        success: "Sign In Successful, Redirecting to dashboard",
+        error: (err) => {
+          const messages = err?.response?.data
+            ? Object.values(err.response.data).flat().join(" & ")
+            : "Failed to process your request.";
+          return messages;
+        },
+      });
+
+      const response = await loginPromise;
+      localStorage.setItem("accessToken", response.data.access);
+      localStorage.setItem("refreshToken", response.data.refresh);
+      setIsLoggedIn(true);
+      router.push("/dashboard/overview");
+      form.reset();
+    } catch (error) {
+      if (!axios.isAxiosError(error)) {
+        toast.error("Something went wrong.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -53,12 +100,13 @@ export function LoginForm({
               {/* Username */}
               <FormField
                 control={form.control}
-                name="identifier"
+                name="username"
+                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username or Email</FormLabel>
+                    <FormLabel>Username</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter username or email" {...field} />
+                      <Input placeholder="Enter username" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -68,6 +116,7 @@ export function LoginForm({
               <FormField
                 control={form.control}
                 name="password"
+                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>

@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
 import {
   Card,
   CardContent,
@@ -14,7 +13,18 @@ import Link from "next/link";
 import { signUpSchema, SignUpSchema } from "@/lib/formValidation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import InputField from "./InputField";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "../ui/input";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
 
 export function SignUpForm({
   className,
@@ -23,10 +33,59 @@ export function SignUpForm({
   const form = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
   });
+  const [loading, setLoading] = useState(false);
 
-  function onSubmit(values: SignUpSchema) {
-    console.log(values);
-  }
+  const onSubmit = async (values: SignUpSchema) => {
+    try {
+      setLoading(true);
+
+      const payload = {
+        username: values.username,
+        email: values.email,
+        password1: values.password1,
+        password2: values.password2,
+      };
+
+      const headers = { "Content-Type": "application/json" };
+
+      const promise = axios.post(
+        "http://127.0.0.1:8000/dj-rest-auth/registration/",
+        payload,
+        {
+          headers,
+        }
+      );
+
+      toast.promise(promise, {
+        loading: "Registering...",
+        success: () => ({
+          message: `Registration Successful`,
+          description: `Please verify the email Sent to activate account`,
+        }),
+        error: (error) => ({
+          message: "Error",
+          description:
+            error?.response?.data?.detail || "Failed to process your request.",
+        }),
+      });
+      form.reset();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const data = error.response?.data;
+
+        if (data) {
+          const messages = Object.values(data).flat().join(" & ");
+          toast.error("Error", { description: messages });
+        } else {
+          toast.error("Error", { description: "Something went wrong." });
+        }
+      } else {
+        toast.error("Error", { description: "Something went wrong." });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -41,44 +100,70 @@ export function SignUpForm({
               onSubmit={form.handleSubmit(onSubmit)}
               className="flex flex-col gap-2 w-full"
             >
-              <div className="flex flex-col md:flex-row w-full gap-2">
-                <InputField
-                  control={form.control}
-                  name="username"
-                  label="Username"
-                  placeholder="Enter username"
-                />
-                <InputField
-                  control={form.control}
-                  name="full_name"
-                  label="Full Name"
-                  placeholder="Enter full name"
-                />
-              </div>
-
-              <div className="flex flex-col md:flex-row w-full gap-2">
-                <InputField
-                  control={form.control}
-                  name="email"
-                  label="Email"
-                  placeholder="Enter email"
-                  type="email"
-                />
-                <InputField
-                  control={form.control}
-                  name="phone"
-                  label="Phone"
-                  placeholder="Enter phone number"
-                />
-              </div>
-
-              <InputField
+              <FormField
                 control={form.control}
-                name="password"
-                label="Password"
-                placeholder="Enter password"
-                type="password"
+                name="username"
+                defaultValue=""
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter username" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
+
+              <FormField
+                control={form.control}
+                name="email"
+                defaultValue=""
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Enter Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter Enter Email"
+                        className="w-full"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex flex-col md:flex-row w-full gap-2">
+                <FormField
+                  control={form.control}
+                  name="password1"
+                  defaultValue=""
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter password" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password2"
+                  defaultValue=""
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Confirm your password" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               <Button type="submit" className="w-full">
                 Sign Up
