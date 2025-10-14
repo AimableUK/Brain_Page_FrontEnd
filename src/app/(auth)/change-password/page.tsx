@@ -4,7 +4,7 @@ import React from "react";
 import { metadata as meta } from "@/lib/utils";
 import SignOutForm from "@/components/Forms/SignOutForm";
 
-export const metadata = meta.signOut;
+export const metadata = meta.changePassword;
 
 const page = () => {
   return (

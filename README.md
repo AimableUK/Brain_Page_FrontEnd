@@ -1,36 +1,165 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 BRAIN PAGE – Library Management System
 
-## Getting Started
+**BRAIN PAGE** is a modern **Library Management System** designed to simplify how libraries organize, track, and manage books, members, and borrowing activities.  
+It features a **Next.js** frontend for a sleek and responsive user interface and a **Django REST Framework** backend for secure and efficient data handling.
 
-First, run the development server:
+---
+
+## 🚀 Tech Stack
+
+| Layer                 | Technology                                                     |
+| --------------------- | -------------------------------------------------------------- |
+| **Frontend**          | [Next.js](https://nextjs.org/) (React Framework), Tailwind CSS |
+| **Backend**           | [Django](https://www.djangoproject.com/)                       |
+| **Database**          | SQLite (development) / PostgreSQL (production)                 |
+| **API Communication** | REST API (JSON-based)                                          |
+| **Version Control**   | Git + GitHub                                                   |
+
+---
+
+## 🧩 Features
+
+### 📘 Book Management
+
+- Add, edit, delete, and list books
+- Track ISBN, author, genre, publication year, and availability
+
+### 👩‍🏫 Member Management
+
+- Register and update library members
+- Manage borrowing history per member
+
+### 🔄 Borrowing System
+
+- Lend and return books
+- Track due dates and overdue fines
+
+### 📊 Dashboard & Analytics
+
+- Overview of total books, borrowed items, and active members
+- Filter and search books or members easily
+
+### 🔐 Authentication
+
+- User login and registration
+- Admin privileges for managing library data
+
+---
+
+## ⚙️ Installation & Setup
+
+### 🖥️ Frontend (Next.js)
 
 ```bash
+# Navigate to frontend(brain_page) folder
+cd frontend
+
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Frontend will run on **http://localhost:3000**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### ⚙️ Backend (Django)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Navigate to backend(brain_page_backend) folder
+cd backend
 
-## Learn More
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate   # On Windows: venv\Scripts\activate
 
-To learn more about Next.js, take a look at the following resources:
+# Install dependencies
+pip install -r requirements.txt
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Run migrations
+python manage.py migrate
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Start the server
+python manage.py runserver
+```
 
-## Deploy on Vercel
+Backend will run on **http://127.0.0.1:8000**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔗 Connecting Frontend & Backend
+
+Make sure your API base URL in the frontend matches the Django backend URL.  
+Example:
+
+```js
+// frontend/utils/api.js
+export const NEXT_PUBLIC_BASE_URL = "http://127.0.0.1:8000/api/v1";
+```
+
+---
+
+## 🧠 Developer Notes
+
+- The frontend uses **Axios** for data fetching.
+- Backend uses **Django REST Framework serializers** and **views** for CRUD operations.
+- You can easily deploy the project using:
+  - **Vercel** for Next.js frontend
+  - **Render** or **Railway** for Django backend
+
+---
+
+## 🧪 Testing
+
+### Frontend
+
+```bash
+npm run test
+```
+
+### Backend
+
+```bash
+python manage.py test
+```
+
+---
+
+## 📁 Environment Variables
+
+### Frontend
+
+| Variable              | Description                |
+| --------------------- | -------------------------- |
+| `NEXT_PUBLIC_API_URL` | Base URL of the Django API |
+
+### Backend
+
+| Variable        | Description                         |
+| --------------- | ----------------------------------- |
+| `SECRET_KEY`    | Django secret key                   |
+| `DEBUG`         | Development mode toggle             |
+| `DATABASE_URL`  | PostgreSQL/SQLite connection string |
+| `ALLOWED_HOSTS` | Allowed domains for deployment      |
+
+---
+
+## 💡 Future Enhancements
+
+- Add role-based access control (Admin, Librarian, Member)
+- Implement notifications for overdue books
+- Add book cover uploads using Django Storage
+- Enable dark mode UI in frontend
+
+---
+
+## 👨‍💻 Author
+
+**BRAIN PAGE** was developed by [UKOBIZABA Aimable](https://ukobizaba-aimable.vercel.app/)
+Passionate about building smart, user-focused web applications.
+
+---
+
+## 📜 License
+
+This project is open-source and available under the **MIT License**.

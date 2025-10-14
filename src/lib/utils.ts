@@ -31,6 +31,21 @@ export const metadata = {
     description:
       "Sign out of your Brain Page account to end your current session safely.",
   },
+  changePassword: {
+    title: "Change Password - Brain Page",
+    description:
+      "Change your Brain Page account password to increase your account security.",
+  },
+  forgotPassword: {
+    title: "Forgot Password - Brain Page",
+    description:
+      "Set a new Brain Page account password to if you forgot it.",
+  },
+  resetPassword: {
+    title: "Reset Password - Brain Page",
+    description:
+      "Reset your Brain Page account password to renew it.",
+  },
   dashboard: {
     title: "Dashboard - Brain Page",
     description:
