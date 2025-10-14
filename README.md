@@ -5,6 +5,11 @@ It features a **Next.js** frontend for a sleek and responsive user interface and
 
 ---
 
+<p>
+  <img src="./public/dash1.png" alt="Brain Page Dashboard" width="600" height="350">
+</p>
+
+
 ## 🚀 Tech Stack
 
 | Layer                 | Technology                                                     |
