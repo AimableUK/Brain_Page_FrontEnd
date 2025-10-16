@@ -35,6 +35,15 @@ export const signUpSchema = z.object({
 export type SignUpSchema = z.infer<typeof signUpSchema>
 
 
+export const passwordResetSchema = z.object({
+    email: z
+        .email({ message: "Invalid email address" }),
+})
+
+export type PasswordResetSchema = z.infer<typeof passwordResetSchema>
+
+
+
 export const memberSchema = z.object({
     full_name: z
         .string()

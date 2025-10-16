@@ -122,6 +122,7 @@ export type Member = {
   address: string;
   last_login: string;
   joined_at: string;
+  created_at?: string;
 };
 
 
@@ -131,7 +132,7 @@ export type LendReturn = {
   book_id: string;
   member_name: string;
   book_title: string;
-  Lent_date: string;
+  lent_date: string;
   return_date: string;
   overdue_date: string;
   status: string;

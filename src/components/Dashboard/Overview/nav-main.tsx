@@ -3,7 +3,7 @@
 import {
   ArrowBigDownDash,
   ArrowBigUpDash,
-  Bell,
+  // Bell,
   BookOpen,
   PlusCircleIcon,
   Rabbit,
@@ -11,7 +11,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -112,7 +112,7 @@ export function NavMain({
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Link href="/dashboard/notifications">
+              {/* <Link href="/dashboard/notifications">
                 <Button
                   size="icon"
                   className={`h-9 border w-9 shrink-0 group-data-[collapsible=icon]:opacity-0 ${
@@ -125,7 +125,7 @@ export function NavMain({
                   <Bell />
                   <span className="sr-only">Notifications</span>
                 </Button>
-              </Link>
+              </Link> */}
             </SidebarMenuItem>
           </SidebarMenu>
           <SidebarMenu>

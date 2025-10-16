@@ -192,7 +192,7 @@ const LendReturnTable = ({
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Returned At
+            Due Date
             <ArrowUpDown />
           </Button>
         );
@@ -202,20 +202,20 @@ const LendReturnTable = ({
       ),
     },
     {
-      accessorKey: "overdue_date",
+      accessorKey: "returned_at",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Due Date
+            Returned At
             <ArrowUpDown />
           </Button>
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("overdue_date")}</div>
+        <div className="lowercase">{row.getValue("returned_at") || "Not Returned"}</div>
       ),
     },
     {
@@ -277,7 +277,7 @@ const LendReturnTable = ({
       data={lendings}
       columns={columns}
       type="LendReturn"
-      filterableColumns={["status", "member_name", "book_title", "Lent_date"]}
+      filterableColumns={["status", "member_name", "book_title", "lent_date"]}
       open={open}
       setOpen={setOpen}
       loading={loading}
