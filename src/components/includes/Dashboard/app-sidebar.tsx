@@ -7,7 +7,6 @@ import {
   LibraryBig,
   Users,
   RefreshCcwDot,
-  UserRound,
 } from "lucide-react";
 
 import {
@@ -20,7 +19,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { NavMain } from "@/components/Dashboard/Overview/nav-main";
-import { NavSecondary } from "@/components/Dashboard/Overview/nav-secondary";
 import { NavUser } from "@/components/Dashboard/Overview/nav-user";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,7 +27,7 @@ const data = {
   user: {
     name: "aimableuk",
     email: "m@example.com",
-    avatar: UserRound,
+    // avatar: UserRound,
   },
   navMain: [
     {
