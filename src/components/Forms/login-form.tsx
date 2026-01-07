@@ -57,7 +57,7 @@ export function LoginForm({
       const headers = { "Content-Type": "application/json" };
 
       const loginPromise = axios.post(
-        "http://127.0.0.1:8000/api/v1/token/",
+        `${process.env.NEXT_PUBLIC_BACKEND_API}token/`,
         payload,
         { headers }
       );

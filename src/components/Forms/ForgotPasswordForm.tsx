@@ -51,7 +51,7 @@ export function ForgotPasswordForm({
       const headers = { "Content-Type": "application/json" };
 
       const promise = axios.post(
-        "http://127.0.0.1:8000/dj-rest-auth/password/reset/",
+        `${process.env.NEXT_PUBLIC_MAIN_BACKEND_API}/dj-rest-auth/password/reset/`,
         values,
         {
           headers,

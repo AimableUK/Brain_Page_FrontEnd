@@ -31,7 +31,7 @@ export default function EmailConfirm() {
 
       try {
         const res = await axios.post(
-          "http://127.0.0.1:8000/dj-rest-auth/registration/verify-email/",
+          `${process.env.NEXT_PUBLIC_MAIN_BACKEND_API}/dj-rest-auth/registration/verify-email/`,
           { key }
         );
 
