@@ -58,7 +58,7 @@ export function SignUpForm({
       const headers = { "Content-Type": "application/json" };
 
       const promise = axios.post(
-        `${process.env.NEXT_PUBLIC_MAIN_BACKEND_API}dj-rest-auth/registration/`,
+        `${process.env.NEXT_PUBLIC_MAIN_BACKEND_API}/dj-rest-auth/registration/`,
         payload,
         {
           headers,
